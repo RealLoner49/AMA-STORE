@@ -17,7 +17,13 @@ const frontendPath = path.join(__dirname, "../../frontend");
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-app.get("/api/health", (req, res) => {
+app.use("/api", async (req, res, next) => {
+    await connectDB();
+    next();
+});
+
+app.get("/api/health", async (req, res) => {
+    await connectDB();
     res.json({
         ok: true,
         database: isDatabaseConnected() ? "connected" : "disconnected"
