@@ -10,6 +10,9 @@ const router = express.Router();
 
 const getAdminEmail = () => String(process.env.ADMIN_EMAIL || "").trim().toLowerCase();
 const getAdminPassword = () => String(process.env.ADMIN_PASSWORD || "");
+const databaseUnavailableMessage = process.env.VERCEL
+    ? "Database is disconnected. MongoDB Atlas is blocking Vercel. In Atlas Network Access, add 0.0.0.0/0, then redeploy or try again."
+    : "Database is disconnected. This account was not saved to MongoDB. Add your current IP in Atlas Network Access, then restart the backend.";
 
 router.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
@@ -29,7 +32,7 @@ router.post("/signup", async (req, res) => {
 
     if (!isDatabaseConnected()) {
         return res.status(503).json({
-            message: "Database is disconnected. This account was not saved to MongoDB. Add your current IP in Atlas Network Access, then restart the backend."
+            message: databaseUnavailableMessage
         });
     }
 
@@ -89,7 +92,7 @@ router.post("/login", async (req, res) => {
 
     if (!isDatabaseConnected()) {
         return res.status(503).json({
-            message: "Database is disconnected. Login cannot read MongoDB users until Atlas Network Access allows this IP."
+            message: databaseUnavailableMessage
         });
     }
 

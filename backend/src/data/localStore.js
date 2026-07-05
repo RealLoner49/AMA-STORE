@@ -3,7 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const seedProducts = require("./seedProducts");
 
-const dataDir = path.join(__dirname, "../../data");
+const dataDir = process.env.VERCEL ? path.join("/tmp", "ama-store-data") : path.join(__dirname, "../../data");
 const productsFile = path.join(dataDir, "products.json");
 const usersFile = path.join(dataDir, "users.json");
 
