@@ -34,8 +34,12 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(frontendPath, "index.html"));
 });
 
-app.listen(PORT, () => {
-    console.log(`AMA STORE backend running on http://localhost:${PORT}`);
-});
-
 connectDB();
+
+if (!process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`AMA STORE backend running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
