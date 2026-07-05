@@ -7,6 +7,7 @@ const { requireDatabase } = require("./middleware/dbMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const newsletterRoutes = require("./routes/newsletterRoutes");
 
 dotenv.config({ path: path.join(__dirname, "../.env") });
 
@@ -33,6 +34,7 @@ app.get("/api/health", async (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", requireDatabase, orderRoutes);
+app.use("/api/newsletter", newsletterRoutes);
 
 app.use(express.static(frontendPath));
 

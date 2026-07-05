@@ -121,9 +121,10 @@
             <p class="section-kicker">AMA Updates</p>
             <h2>Get First Access To New Drops</h2>
         </div>
-        <form class="newsletter-form">
-            <input type="email" placeholder="Email address" aria-label="Email address">
+        <form class="newsletter-form" data-newsletter-form>
+            <input name="email" type="email" placeholder="Email address" aria-label="Email address" autocomplete="email" required>
             <button type="submit">Join</button>
+            <p class="newsletter-message" data-newsletter-message></p>
         </form>
     </section>
 
@@ -179,6 +180,7 @@
     </footer>
     <script src="products.js"></script>
     <script src="session.js"></script>
+    <script src="newsletter.js"></script>
     <script>
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
