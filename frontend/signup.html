@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - AMA STORE</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <main class="auth-shell">
+        <section class="auth-visual">
+            <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+        </section>
+
+        <section class="auth-panel">
+            <a class="auth-logo" href="index.html">
+                <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+            </a>
+            <p class="auth-kicker">Join AMA</p>
+            <h1>Create Account</h1>
+            <p class="auth-copy">Sign up to save your details and get ready for new drops from AMA STORE.</p>
+
+            <form class="auth-form" data-signup-form>
+                <div class="auth-field">
+                    <label for="name">Full Name</label>
+                    <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+                </div>
+
+                <div class="auth-field">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password" placeholder="At least 6 characters" autocomplete="new-password" required>
+                </div>
+
+                <button class="auth-button" type="submit">Sign Up</button>
+                <p class="auth-message" data-auth-message></p>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="login.html">Login</a></p>
+            <a class="auth-home" href="index.html">Back Home</a>
+        </section>
+    </main>
+    <script src="auth.js"></script>
+    <script src="session.js"></script>
+</body>
+</html>

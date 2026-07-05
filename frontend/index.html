@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMA STORE - Premium Fashion</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="shop.html">Shop</a>
+                <a class="nav-link" href="Lookbook.html">Lookbook</a>
+                <a class="nav-link" href="support.html">Support</a>
+            </div>
+
+            <div class="nav-center">
+                <a class="logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a class="cart" href="login.html" data-auth-link>Login</a>
+                <a class="cart" href="cart.html">Cart</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a class="mobile-nav-link" href="index.html">Home</a>
+            <a class="mobile-nav-link" href="shop.html">Shop</a>
+            <a class="mobile-nav-link" href="Lookbook.html">Lookbook</a>
+            <a class="mobile-nav-link" href="support.html">Support</a>
+            <a class="mobile-nav-link" href="login.html" data-auth-link>Login</a>
+            <a class="mobile-nav-link" href="cart.html">Cart</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-bg-image" style="background-image: url('./Imgs/LOGO.jpeg')"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <a class="shop-btn" href="shop.html">SHOP NOW</a>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="products-container">
+            <div class="section-header">
+                <h2 class="section-title">GYM ESSENTIALS</h2>
+                <a href="shop.html" class="view-more">View More</a>
+            </div>
+            
+            <div class="products-grid" data-products-grid data-products-limit="4">
+                <p class="products-empty">Loading products...</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-section">
+        <div class="feature-image">
+            <img src="./Imgs/Ama5.jpeg" alt="AMA activewear collection">
+        </div>
+        <div class="feature-copy">
+            <p class="section-kicker">New Season</p>
+            <h2>Built For Movement, Styled For Everyday</h2>
+            <p>AMA pieces are made for clean fits, soft structure, and confident everyday wear. From gym sessions to casual plans, each dress keeps the look sharp without losing comfort.</p>
+            <a href="shop.html" class="solid-link">Shop Collection</a>
+        </div>
+    </section>
+
+    <section class="brand-values">
+        <div class="value-item">
+            <span>01</span>
+            <h3>Premium Feel</h3>
+            <p>Smooth, flexible pieces designed to sit clean on the body and move with you.</p>
+        </div>
+        <div class="value-item">
+            <span>02</span>
+            <h3>Easy Styling</h3>
+            <p>Simple silhouettes that work with sneakers, slides, jackets, and daily layers.</p>
+        </div>
+        <div class="value-item">
+            <span>03</span>
+            <h3>Active Ready</h3>
+            <p>Comfort-focused fits for training, errands, lounging, and everything between.</p>
+        </div>
+    </section>
+
+    <section class="lookbook-preview">
+        <div class="section-header">
+            <h2 class="section-title">SHOP THE LOOK</h2>
+            <a href="Lookbook.html" class="view-more">Open Lookbook</a>
+        </div>
+        <div class="lookbook-strip">
+            <a href="Lookbook.html" class="lookbook-tile">
+                <img src="./Imgs/Ama3.jpeg" alt="AMA black athletic outfit">
+                <span>Training Fit</span>
+            </a>
+            <a href="Lookbook.html" class="lookbook-tile">
+                <img src="./Imgs/Ama4.jpeg" alt="AMA gym dress styling">
+                <span>Everyday Active</span>
+            </a>
+            <a href="Lookbook.html" class="lookbook-tile">
+                <img src="./Imgs/Ama6.jpeg" alt="AMA premium activewear look">
+                <span>Premium Set</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="newsletter-section">
+        <div>
+            <p class="section-kicker">AMA Updates</p>
+            <h2>Get First Access To New Drops</h2>
+        </div>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Email address" aria-label="Email address">
+            <button type="submit">Join</button>
+        </form>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+                </a>
+                <h2>AMA STORE</h2>
+                <p>Premium activewear made for movement, comfort, and clean everyday styling.</p>
+            </div>
+
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h3>Shop</h3>
+                    <a href="shop.html">New Arrivals</a>
+                    <a href="shop.html">Gym Essentials</a>
+                    <a href="Lookbook.html">Lookbook</a>
+                    <a href="shop.html">Collections</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <a href="support.html#contact">Contact</a>
+                    <a href="support.html#shipping">Shipping</a>
+                    <a href="support.html#returns">Returns</a>
+                    <a href="support.html#size-guide">Size Guide</a>
+                </div>
+
+                <div class="footer-column">
+                    <h3>Social</h3>
+                    <a href="support.html#social">Instagram</a>
+                    <a href="support.html#social">TikTok</a>
+                    <a href="support.html#social">Facebook</a>
+                    <a href="support.html#contact">WhatsApp</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-contact">
+            <p>Need help choosing a fit?</p>
+            <a href="support.html#contact">Message Support</a>
+        </div>
+
+        <div class="footer-bottom">
+            <span>&copy; 2026 AMA STORE. All rights reserved.</span>
+            <div>
+                <a href="support.html#privacy">Privacy</a>
+                <a href="support.html#terms">Terms</a>
+            </div>
+        </div>
+    </footer>
+    <script src="products.js"></script>
+    <script src="session.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            hamburger.classList.toggle('is-open', isOpen);
+            document.querySelector('header').classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+    </script>
+</body>
+</html>

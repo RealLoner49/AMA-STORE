@@ -1,0 +1,463 @@
+/* Lookbook Page Styles */
+
+.lookbook-hero {
+    background: #f6f6f6;
+    padding: 80px 24px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.lookbook-hero h1 {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin: 0 0 16px 0;
+    color: #111;
+}
+
+.lookbook-hero p {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    letter-spacing: 0.04em;
+    font-weight: 300;
+}
+
+/* Lookbook Gallery - Masonry Style */
+.lookbook-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    padding: 60px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.lookbook-gallery .products-empty,
+.collections-grid .products-empty {
+    grid-column: 1 / -1;
+}
+
+.lookbook-item {
+    position: relative;
+    overflow: hidden;
+    background: #f6f6f6;
+    aspect-ratio: 3/4;
+    cursor: pointer;
+}
+
+.lookbook-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+    aspect-ratio: auto;
+}
+
+.lookbook-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.lookbook-item:hover img {
+    transform: scale(1.08);
+}
+
+.lookbook-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 30px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    text-align: center;
+}
+
+.lookbook-item:hover .lookbook-overlay {
+    opacity: 1;
+}
+
+.lookbook-overlay h2 {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.lookbook-overlay h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.06em;
+}
+
+.lookbook-overlay p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 20px 0;
+    letter-spacing: 0.04em;
+}
+
+.lookbook-btn {
+    padding: 12px 36px;
+    background: white;
+    color: #111;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.lookbook-btn,
+.lookbook-link {
+    font-family: inherit;
+}
+
+.lookbook-btn:hover {
+    background: #111;
+    color: white;
+}
+
+.lookbook-link {
+    background: transparent;
+    border: 0;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: 2px solid white;
+    padding-bottom: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lookbook-link:hover {
+    border-color: transparent;
+    opacity: 0.8;
+}
+
+/* Story Section */
+.lookbook-story {
+    background: #fff;
+    padding: 80px 24px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.story-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.story-content h2 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 30px 0;
+    color: #111;
+}
+
+.story-content p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.8;
+    margin: 0 0 20px 0;
+    letter-spacing: 0.02em;
+}
+
+.story-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Collections Section */
+.lookbook-collections {
+    padding: 80px 24px;
+    background: #f6f6f6;
+}
+
+.lookbook-collections h2 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 60px 0;
+    text-align: center;
+    color: #111;
+}
+
+.collections-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.collection-card {
+    background: white;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.collection-card:hover {
+    transform: translateY(-8px);
+}
+
+.collection-image {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #f6f6f6;
+    margin-bottom: 0;
+}
+
+.collection-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.collection-card:hover .collection-image img {
+    transform: scale(1.05);
+}
+
+.collection-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111;
+    margin: 24px 24px 8px 24px;
+    letter-spacing: 0.04em;
+}
+
+.collection-card p {
+    font-size: 13px;
+    color: #666;
+    margin: 0 24px 20px 24px;
+    line-height: 1.6;
+}
+
+.collection-card a {
+    display: inline-block;
+    margin: 0 24px 24px 24px;
+    padding: 10px 24px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.collection-card a:hover {
+    background: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .lookbook-gallery {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .lookbook-item.large {
+        grid-column: span 3;
+        grid-row: span 1;
+    }
+
+    .collections-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .lookbook-hero h1 {
+        font-size: 36px;
+    }
+
+    .lookbook-hero p {
+        font-size: 16px;
+    }
+
+    .lookbook-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 50px 20px;
+    }
+
+    .lookbook-item.large {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    .lookbook-overlay h2 {
+        font-size: 24px;
+    }
+
+    .story-content h2 {
+        font-size: 28px;
+    }
+
+    .lookbook-collections h2 {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .collections-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lookbook-hero {
+        padding: 40px 16px;
+    }
+
+    .lookbook-hero h1 {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .lookbook-hero p {
+        font-size: 13px;
+    }
+
+    .lookbook-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        padding: 30px 12px;
+    }
+
+    .lookbook-item {
+        aspect-ratio: 2/3;
+    }
+
+    .lookbook-item.large {
+        grid-column: span 2;
+        grid-row: span 1;
+        aspect-ratio: 16/9;
+    }
+
+    .lookbook-overlay {
+        padding: 20px;
+    }
+
+    .lookbook-overlay h2 {
+        font-size: 18px;
+        margin-bottom: 4px;
+    }
+
+    .lookbook-overlay h3 {
+        font-size: 14px;
+    }
+
+    .lookbook-overlay p {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .lookbook-btn {
+        padding: 10px 24px;
+        font-size: 11px;
+    }
+
+    .lookbook-link {
+        font-size: 10px;
+    }
+
+    .lookbook-story {
+        padding: 50px 20px;
+    }
+
+    .story-content h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .story-content p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+
+    .lookbook-collections {
+        padding: 50px 16px;
+    }
+
+    .lookbook-collections h2 {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    .collections-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .collection-image {
+        aspect-ratio: 1/1;
+    }
+
+    .collection-card h3 {
+        font-size: 14px;
+        margin: 16px 16px 6px 16px;
+    }
+
+    .collection-card p {
+        font-size: 12px;
+        margin: 0 16px 12px 16px;
+    }
+
+    .collection-card a {
+        margin: 0 16px 16px 16px;
+        padding: 8px 20px;
+        font-size: 10px;
+    }
+
+    .footer {
+        padding: 40px 16px 15px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+
+    .footer-section h4 {
+        font-size: 12px;
+        margin-bottom: 12px;
+    }
+
+    .footer-section p,
+    .footer-section a {
+        font-size: 11px;
+    }
+
+    .footer-bottom p {
+        font-size: 10px;
+    }
+}

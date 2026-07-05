@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - AMA STORE</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="shop.css">
+</head>
+<body data-products-page="shop">
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="shop.html">Shop</a>
+                <a class="nav-link" href="Lookbook.html">Lookbook</a>
+                <a class="nav-link" href="support.html">Support</a>
+            </div>
+
+            <div class="nav-center">
+                <a class="logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a class="cart" href="login.html" data-auth-link>Login</a>
+                <a class="cart" href="cart.html">Cart</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a class="mobile-nav-link" href="index.html">Home</a>
+            <a class="mobile-nav-link" href="shop.html">Shop</a>
+            <a class="mobile-nav-link" href="Lookbook.html">Lookbook</a>
+            <a class="mobile-nav-link" href="support.html">Support</a>
+            <a class="mobile-nav-link" href="login.html" data-auth-link>Login</a>
+            <a class="mobile-nav-link" href="cart.html">Cart</a>
+        </div>
+    </header>
+
+    <section class="shop-hero">
+        <h1>SHOP OUR COLLECTION</h1>
+        <p>Premium Gym Dresses & Athletic Wear</p>
+    </section>
+
+    <section class="shop-container">
+        <div class="shop-sidebar">
+            <details class="filter-drawer" open>
+                <summary>Filter Products</summary>
+                <div class="filter-group">
+                    <h3>FILTER BY</h3>
+                
+                    <div class="filter-section">
+                        <h4>Price</h4>
+                        <label><input type="checkbox" data-filter-type="price" data-min="0" data-max="49999"> Under &#8358;50,000</label>
+                        <label><input type="checkbox" data-filter-type="price" data-min="50000" data-max="75000"> &#8358;50,000 - &#8358;75,000</label>
+                        <label><input type="checkbox" data-filter-type="price" data-min="75000" data-max="100000"> &#8358;75,000 - &#8358;100,000</label>
+                        <label><input type="checkbox" data-filter-type="price" data-min="100001"> Over &#8358;100,000</label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Size</h4>
+                        <label><input type="checkbox" data-filter-type="size" value="XS"> XS</label>
+                        <label><input type="checkbox" data-filter-type="size" value="S"> S</label>
+                        <label><input type="checkbox" data-filter-type="size" value="M"> M</label>
+                        <label><input type="checkbox" data-filter-type="size" value="L"> L</label>
+                        <label><input type="checkbox" data-filter-type="size" value="XL"> XL</label>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Color</h4>
+                        <label><input type="checkbox" data-filter-type="color" value="Black"> Black</label>
+                        <label><input type="checkbox" data-filter-type="color" value="White"> White</label>
+                        <label><input type="checkbox" data-filter-type="color" value="Navy"> Navy</label>
+                        <label><input type="checkbox" data-filter-type="color" value="Gray"> Gray</label>
+                        <label><input type="checkbox" data-filter-type="color" value="Colored"> Colored</label>
+                    </div>
+                </div>
+            </details>
+        </div>
+
+        <div class="shop-products">
+            <div class="products-grid" data-products-grid data-show-cart>
+                <p class="products-empty">Loading products...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About AMA STORE</h4>
+                <p>Premium gym dresses and athletic wear for active women.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="support.html#contact">Contact Us</a></li>
+                    <li><a href="support.html#shipping">Shipping Info</a></li>
+                    <li><a href="support.html#returns">Returns</a></li>
+                    <li><a href="support.html#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <ul>
+                    <li><a href="support.html#social">Instagram</a></li>
+                    <li><a href="support.html#social">Twitter</a></li>
+                    <li><a href="support.html#social">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AMA STORE. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="products.js"></script>
+    <script src="session.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const filterDrawer = document.querySelector('.filter-drawer');
+        const syncFilterDrawer = () => {
+            if (!filterDrawer) return;
+            filterDrawer.open = !window.matchMedia('(max-width: 768px)').matches;
+        };
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            hamburger.classList.toggle('is-open', isOpen);
+            document.querySelector('header').classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+
+        syncFilterDrawer();
+        window.addEventListener('resize', syncFilterDrawer);
+    </script>
+</body>
+</html>

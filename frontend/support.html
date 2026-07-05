@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - AMA STORE</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="shop.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="shop.html">Shop</a>
+                <a class="nav-link" href="Lookbook.html">Lookbook</a>
+                <a class="nav-link" href="support.html">Support</a>
+            </div>
+
+            <div class="nav-center">
+                <a class="logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a class="cart" href="login.html" data-auth-link>Login</a>
+                <a class="cart" href="cart.html">Cart</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a class="mobile-nav-link" href="index.html">Home</a>
+            <a class="mobile-nav-link" href="shop.html">Shop</a>
+            <a class="mobile-nav-link" href="Lookbook.html">Lookbook</a>
+            <a class="mobile-nav-link" href="support.html">Support</a>
+            <a class="mobile-nav-link" href="login.html" data-auth-link>Login</a>
+            <a class="mobile-nav-link" href="cart.html">Cart</a>
+        </div>
+    </header>
+
+    <section class="shop-hero">
+        <h1>SUPPORT</h1>
+        <p>Help with orders, shipping, returns, and sizing</p>
+    </section>
+
+    <section class="brand-values">
+        <div class="value-item" id="contact">
+            <span>01</span>
+            <h3>Contact</h3>
+            <p>Email support@amastore.com or message us on WhatsApp for product and order help.</p>
+        </div>
+        <div class="value-item" id="shipping">
+            <span>02</span>
+            <h3>Shipping</h3>
+            <p>Orders are prepared quickly after checkout. Delivery timing depends on your location and order details.</p>
+        </div>
+        <div class="value-item" id="returns">
+            <span>03</span>
+            <h3>Returns</h3>
+            <p>Items can be reviewed for return support when they are unused, clean, and in original condition.</p>
+        </div>
+    </section>
+
+    <section class="feature-section" id="size-guide">
+        <div class="feature-image">
+            <img src="./Imgs/Ama5.jpeg" alt="AMA size guide fit reference">
+        </div>
+        <div class="feature-copy">
+            <p class="section-kicker">Fit Help</p>
+            <h2>Size Guide</h2>
+            <p>Choose your regular activewear size for a close fit. Size up if you prefer a more relaxed feel or plan to layer.</p>
+            <a href="shop.html" class="solid-link">Shop Collection</a>
+        </div>
+    </section>
+
+    <section class="brand-values" id="faq">
+        <div class="value-item">
+            <span>FAQ</span>
+            <h3>Can I change my order?</h3>
+            <p>Contact support as soon as possible after ordering so we can check the order status.</p>
+        </div>
+        <div class="value-item" id="privacy">
+            <span>PR</span>
+            <h3>Privacy</h3>
+            <p>Your account and order details are used only to provide store services and support.</p>
+        </div>
+        <div class="value-item" id="terms">
+            <span>TM</span>
+            <h3>Terms</h3>
+            <p>Purchases, returns, and support requests are handled according to AMA STORE policies.</p>
+        </div>
+    </section>
+
+    <section class="newsletter-section" id="social">
+        <div>
+            <p class="section-kicker">Social</p>
+            <h2>Follow AMA STORE</h2>
+        </div>
+        <div class="footer-bottom">
+            <a href="support.html#social">Instagram</a>
+            <a href="support.html#social">TikTok</a>
+            <a href="support.html#social">Facebook</a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+                </a>
+                <h2>AMA STORE</h2>
+                <p>Premium activewear made for movement, comfort, and clean everyday styling.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="session.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            hamburger.classList.toggle('is-open', isOpen);
+            document.querySelector('header').classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+    </script>
+</body>
+</html>

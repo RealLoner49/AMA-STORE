@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AMA STORE</title>
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+    <main class="admin-shell">
+        <header class="admin-header">
+            <div class="admin-brand">
+                <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+                <span>AMA Admin</span>
+            </div>
+
+            <div class="admin-actions">
+                <a class="admin-link" href="index.html">Store</a>
+                <button class="admin-logout" type="button" data-admin-logout data-logout>Logout</button>
+            </div>
+        </header>
+
+        <section class="admin-main">
+            <h1>Dashboard</h1>
+            <p class="admin-subtitle">Signed in as <strong data-admin-email></strong></p>
+
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <span>Orders</span>
+                    <strong>24</strong>
+                </div>
+                <div class="admin-card">
+                    <span>Products</span>
+                    <strong data-products-count>0</strong>
+                </div>
+                <div class="admin-card">
+                    <span>Customers</span>
+                    <strong>126</strong>
+                </div>
+                <div class="admin-card">
+                    <span>Revenue</span>
+                    <strong>&#8358;4.2m</strong>
+                </div>
+            </div>
+
+            <div class="admin-manager">
+                <div class="admin-panel">
+                    <h2>Manage Product</h2>
+                    <form class="admin-product-form" data-product-form>
+                        <label>
+                            Product Name
+                            <input name="name" type="text" placeholder="Women's Gym Dress" required>
+                        </label>
+
+                        <label>
+                            Price
+                            <input name="price" type="text" inputmode="numeric" placeholder="75,000" required>
+                        </label>
+
+                        <label>
+                            Image Path
+                            <div class="admin-image-picker">
+                                <input name="image" type="text" placeholder="Click to choose image" data-image-path required>
+                                <button type="button" data-image-pick>Browse</button>
+                            </div>
+                            <input name="imageFile" class="admin-file-input" type="file" accept="image/*" data-image-file>
+                        </label>
+
+                        <label>
+                            Category
+                            <input name="category" type="text" placeholder="Gym Essentials" required>
+                        </label>
+
+                        <label>
+                            Show Product On
+                            <select name="placement" required>
+                                <option value="">Choose page</option>
+                                <option value="shop">Shop page only</option>
+                                <option value="lookbook">Lookbook page only</option>
+                                <option value="both">Shop and Lookbook</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Stock
+                            <input name="stock" type="number" min="0" step="1" placeholder="20">
+                        </label>
+
+                        <label class="admin-check">
+                            <input name="featured" type="checkbox">
+                            Featured product
+                        </label>
+
+                        <div class="admin-form-actions">
+                            <button class="admin-logout" type="submit" data-product-submit>Add Product</button>
+                            <button class="admin-link" type="button" data-product-cancel hidden>Cancel</button>
+                        </div>
+
+                        <p class="admin-message" data-product-message></p>
+                    </form>
+                </div>
+
+                <div class="admin-panel">
+                    <h2>Products</h2>
+                    <div class="admin-products" data-product-list>
+                        <p class="admin-empty">Loading products...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div class="admin-confirm" data-delete-modal hidden>
+        <div class="admin-confirm-backdrop" data-delete-cancel></div>
+        <section class="admin-confirm-panel" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+            <h2 id="deleteModalTitle">Delete Product?</h2>
+            <p>Are you sure you want to delete <strong data-delete-product-name>this product</strong>? This action cannot be undone.</p>
+            <div class="admin-confirm-actions">
+                <button class="admin-link" type="button" data-delete-cancel>Cancel</button>
+                <button class="admin-danger" type="button" data-delete-confirm>Delete</button>
+            </div>
+        </section>
+    </div>
+    <div class="admin-toast" data-admin-toast role="status" aria-live="polite" hidden>
+        <strong data-admin-toast-title>Product updated</strong>
+        <span data-admin-toast-message></span>
+    </div>
+    <script src="admin.js"></script>
+    <script src="session.js"></script>
+</body>
+</html>

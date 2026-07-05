@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - AMA STORE</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="shop.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="shop.html">Shop</a>
+                <a class="nav-link" href="Lookbook.html">Lookbook</a>
+                <a class="nav-link" href="support.html">Support</a>
+            </div>
+
+            <div class="nav-center">
+                <a class="logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a class="cart" href="login.html" data-auth-link>Login</a>
+                <a class="cart" href="cart.html">Cart</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a class="mobile-nav-link" href="index.html">Home</a>
+            <a class="mobile-nav-link" href="shop.html">Shop</a>
+            <a class="mobile-nav-link" href="Lookbook.html">Lookbook</a>
+            <a class="mobile-nav-link" href="support.html">Support</a>
+            <a class="mobile-nav-link" href="login.html" data-auth-link>Login</a>
+            <a class="mobile-nav-link" href="cart.html">Cart</a>
+        </div>
+    </header>
+
+    <section class="shop-hero">
+        <h1>CHECKOUT</h1>
+        <p>Confirm your details and place your AMA STORE order</p>
+    </section>
+
+    <main class="checkout-section">
+        <form class="checkout-layout" data-checkout-form>
+            <section class="checkout-panel">
+                <p class="section-kicker">Contact</p>
+                <h2>Customer Details</h2>
+
+                <div class="checkout-grid">
+                    <label>
+                        Full Name
+                        <input name="name" type="text" placeholder="Your full name" required>
+                    </label>
+                    <label>
+                        Email
+                        <input name="email" type="email" placeholder="you@example.com" required>
+                    </label>
+                    <label>
+                        Phone
+                        <input name="phone" type="tel" placeholder="+234..." required>
+                    </label>
+                    <label>
+                        City
+                        <input name="city" type="text" placeholder="Lagos" required>
+                    </label>
+                    <label class="checkout-wide">
+                        Delivery Address
+                        <input name="address" type="text" placeholder="Street, area, landmark" required>
+                    </label>
+                </div>
+
+                <p class="section-kicker checkout-kicker">Payment</p>
+                <p class="checkout-hint">After your details are complete, choosing a payment option will continue the order.</p>
+                <div class="checkout-payment">
+                    <label>
+                        <input name="paymentMethod" type="radio" value="pay_on_delivery" checked>
+                        Pay on delivery
+                    </label>
+                    <label>
+                        <input name="paymentMethod" type="radio" value="bank_transfer">
+                        Bank transfer
+                    </label>
+                    <label>
+                        <input name="paymentMethod" type="radio" value="paystack">
+                        Paystack
+                    </label>
+                </div>
+
+                <div class="bank-transfer-panel" data-bank-transfer hidden>
+                    <p class="section-kicker">Transfer Details</p>
+                    <div class="bank-detail-row">
+                        <span>Bank Name</span>
+                        <strong>Opay</strong>
+                    </div>
+                    <div class="bank-detail-row">
+                        <span>Account Name</span>
+                        <strong>Victor Ogbuefi</strong>
+                    </div>
+                    <div class="bank-detail-row">
+                        <span>Account Number</span>
+                        <strong>8028084696</strong>
+                    </div>
+                    <p class="bank-note">Use your full name or order phone number as the transfer narration. Your order will be confirmed after payment is received.</p>
+                </div>
+            </section>
+
+            <aside class="checkout-summary" data-checkout-summary>
+                <p class="products-empty">Loading order...</p>
+            </aside>
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <a class="footer-logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
+                </a>
+                <h2>AMA STORE</h2>
+                <p>Premium activewear made for movement, comfort, and clean everyday styling.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="session.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="checkout.js"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            hamburger.classList.toggle('is-open', isOpen);
+            document.querySelector('header').classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+    </script>
+</body>
+</html>
