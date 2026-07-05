@@ -21,6 +21,38 @@ const updateCartCount = () => {
     });
 };
 
+const normalizePath = (path) => {
+    const page = path.split("/").pop().split("#")[0].split("?")[0].toLowerCase();
+    return page || "index.html";
+};
+
+const updateActiveNav = () => {
+    const currentPage = normalizePath(window.location.pathname);
+    const pageAliases = {
+        "": "index.html",
+        "index.html": "index.html",
+        "shop.html": "shop.html",
+        "lookbook.html": "lookbook.html",
+        "support.html": "support.html",
+        "cart.html": "cart.html",
+        "checkout.html": "cart.html",
+        "login.html": "login.html",
+        "signup.html": "login.html"
+    };
+    const activePage = pageAliases[currentPage] || currentPage;
+
+    document.querySelectorAll(".nav-link, .mobile-nav-link, .cart").forEach((link) => {
+        const linkPage = pageAliases[normalizePath(link.getAttribute("href") || "")];
+        if (linkPage && linkPage === activePage) {
+            link.classList.add("is-active");
+            link.setAttribute("aria-current", "page");
+        } else {
+            link.classList.remove("is-active");
+            link.removeAttribute("aria-current");
+        }
+    });
+};
+
 document.querySelectorAll("[data-auth-link]").forEach((link) => {
     if (!isLoggedIn) return;
 
@@ -38,4 +70,5 @@ document.querySelectorAll("[data-logout]").forEach((button) => {
 });
 
 updateCartCount();
+updateActiveNav();
 window.updateAmaCartCount = updateCartCount;
