@@ -36,27 +36,48 @@ const request = async (path, body) => {
     return data;
 };
 
+const isDatabaseConnectionMessage = (message) => /database|mongodb|atlas|network access|disconnected/i.test(message || "");
+
+const loginRequest = async (body) => {
+    try {
+        return await request("/auth/login", body);
+    } catch (error) {
+        if (!isDatabaseConnectionMessage(error.message)) {
+            throw error;
+        }
+
+        setMessage("Signing in...");
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+        return request("/auth/login", body);
+    }
+};
+
 const loginForm = document.querySelector("[data-login-form]");
 if (loginForm) {
     loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        setMessage("Checking account...");
+        setMessage("Signing in...");
         const submitButton = loginForm.querySelector("button[type='submit']");
         if (submitButton) submitButton.disabled = true;
+        let isRedirecting = false;
 
         try {
-            const data = await request("/auth/login", {
+            const data = await loginRequest({
                 email: loginForm.email.value,
                 password: loginForm.password.value
             });
 
             setSession(data);
-            setMessage("Login successful. Redirecting...", "success");
+            isRedirecting = true;
             window.location.href = data.user.role === "admin" ? "admin.html" : "index.html";
         } catch (error) {
-            setMessage(error.message, "error");
+            if (isDatabaseConnectionMessage(error.message)) {
+                setMessage("Connection is waking up. Please tap login again.");
+            } else {
+                setMessage(error.message, "error");
+            }
         } finally {
-            if (submitButton) submitButton.disabled = false;
+            if (submitButton && !isRedirecting) submitButton.disabled = false;
         }
     });
 }
