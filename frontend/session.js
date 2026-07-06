@@ -42,6 +42,12 @@ const updateActiveNav = () => {
     const activePage = pageAliases[currentPage] || currentPage;
 
     document.querySelectorAll(".nav-link, .mobile-nav-link, .cart").forEach((link) => {
+        if (link.hasAttribute("data-logout") || link.dataset.authLink === "logout") {
+            link.classList.remove("is-active");
+            link.removeAttribute("aria-current");
+            return;
+        }
+
         const linkPage = pageAliases[normalizePath(link.getAttribute("href") || "")];
         if (linkPage && linkPage === activePage) {
             link.classList.add("is-active");
@@ -58,7 +64,10 @@ document.querySelectorAll("[data-auth-link]").forEach((link) => {
 
     link.textContent = "Logout";
     link.href = "#";
+    link.dataset.authLink = "logout";
     link.setAttribute("aria-label", "Logout");
+    link.classList.remove("is-active");
+    link.removeAttribute("aria-current");
     link.addEventListener("click", (event) => {
         event.preventDefault();
         logout();
