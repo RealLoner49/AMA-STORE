@@ -153,17 +153,6 @@ header {
     font-weight: 900;
 }
 
-.mobile-nav-link.is-active::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: auto;
-    bottom: -6px;
-    width: 28px;
-    height: 2px;
-    background: #111;
-}
-
 .hero {
     position: relative;
     width: 100%;
