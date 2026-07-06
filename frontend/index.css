@@ -2018,14 +2018,16 @@ body.modal-open {
 
     .product-modal-image {
         flex: 0 0 auto;
-        height: clamp(180px, 30dvh, 250px);
+        height: clamp(210px, 32dvh, 280px);
         min-height: 0;
         margin-top: -22px;
+        padding: 18px 18px 0;
+        box-sizing: border-box;
     }
 
     .product-modal-image img {
-        object-fit: cover;
-        object-position: center top;
+        object-fit: contain;
+        object-position: center;
     }
 
     .product-modal-content {
