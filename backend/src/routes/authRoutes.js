@@ -14,6 +14,37 @@ const databaseUnavailableMessage = process.env.VERCEL
     ? "Database is disconnected. MongoDB Atlas is blocking Vercel. In Atlas Network Access, add 0.0.0.0/0, then redeploy or try again."
     : "Database is disconnected. This account was not saved to MongoDB. Add your current IP in Atlas Network Access, then restart the backend.";
 
+const syncConfiguredAdmin = async (email, password) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    let admin = await Admin.findOne({ email });
+
+    if (!admin) {
+        admin = await Admin.findOne({ role: "admin" }).sort({ createdAt: 1 });
+    }
+
+    if (!admin) {
+        return Admin.create({
+            name: "AMA Admin",
+            email,
+            password: hashedPassword,
+            role: "admin"
+        });
+    }
+
+    admin.name = "AMA Admin";
+    admin.email = email;
+    admin.password = hashedPassword;
+    admin.role = "admin";
+    await admin.save();
+
+    await Admin.deleteMany({
+        _id: { $ne: admin._id },
+        role: "admin"
+    });
+
+    return admin;
+};
+
 router.post("/signup", async (req, res) => {
     const { name, email, password } = req.body;
     const normalizedEmail = String(email || "").trim().toLowerCase();
@@ -96,16 +127,22 @@ router.post("/login", async (req, res) => {
         });
     }
 
-    let user = isAdminLogin ? await Admin.findOne({ email: normalizedEmail }) : await User.findOne({ email: normalizedEmail });
+    if (isAdminLogin && password === adminPassword) {
+        const user = await syncConfiguredAdmin(normalizedEmail, password);
+        await User.deleteMany({ email: normalizedEmail });
 
-    if (!user && isAdminLogin && password === adminPassword) {
-        user = await Admin.create({
-            name: "AMA Admin",
-            email: normalizedEmail,
-            password: await bcrypt.hash(password, 10),
-            role: "admin"
+        return res.json({
+            token: createToken(user),
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
         });
     }
+
+    let user = isAdminLogin ? await Admin.findOne({ email: normalizedEmail }) : await User.findOne({ email: normalizedEmail });
 
     if (!user) {
         return res.status(404).json({ message: "No account found with this email." });
