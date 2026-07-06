@@ -38,18 +38,34 @@ const request = async (path, body) => {
 
 const isDatabaseConnectionMessage = (message) => /database|mongodb|atlas|network access|disconnected/i.test(message || "");
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const warmAuthApi = () => {
+    fetch(`${API_BASE}/health`).catch(() => {});
+};
+
 const loginRequest = async (body) => {
-    try {
-        return await request("/auth/login", body);
-    } catch (error) {
-        if (!isDatabaseConnectionMessage(error.message)) {
-            throw error;
+    const retryDelays = [0, 900, 1600, 2400];
+    let lastDatabaseError;
+
+    for (const delay of retryDelays) {
+        if (delay) {
+            setMessage("Signing in...");
+            await wait(delay);
         }
 
-        setMessage("Signing in...");
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-        return request("/auth/login", body);
+        try {
+            return await request("/auth/login", body);
+        } catch (error) {
+            if (!isDatabaseConnectionMessage(error.message)) {
+                throw error;
+            }
+
+            lastDatabaseError = error;
+        }
     }
+
+    throw lastDatabaseError || new Error("Could not sign in yet.");
 };
 
 const loginForm = document.querySelector("[data-login-form]");
@@ -72,7 +88,7 @@ if (loginForm) {
             window.location.href = data.user.role === "admin" ? "admin.html" : "index.html";
         } catch (error) {
             if (isDatabaseConnectionMessage(error.message)) {
-                setMessage("Connection is waking up. Please tap login again.");
+                setMessage("Connection is taking longer than expected. Please try once more.");
             } else {
                 setMessage(error.message, "error");
             }
@@ -80,6 +96,8 @@ if (loginForm) {
             if (submitButton && !isRedirecting) submitButton.disabled = false;
         }
     });
+
+    warmAuthApi();
 }
 
 const signupForm = document.querySelector("[data-signup-form]");
