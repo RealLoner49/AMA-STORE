@@ -290,6 +290,83 @@ body {
     letter-spacing: 0.08em;
 }
 
+.admin-orders-panel {
+    margin-bottom: 18px;
+}
+
+.admin-panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.admin-panel-heading h2 {
+    margin: 0;
+}
+
+.admin-panel-heading span {
+    color: #777;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-orders {
+    display: grid;
+    gap: 10px;
+}
+
+.admin-order-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(130px, 0.5fr) auto;
+    align-items: center;
+    gap: 18px;
+    padding: 16px;
+    border: 1px solid #eee;
+    background: #fafafa;
+}
+
+.admin-order-row strong,
+.admin-order-row span {
+    display: block;
+}
+
+.admin-order-row strong {
+    color: #111;
+    font-size: 14px;
+}
+
+.admin-order-row span {
+    margin-top: 6px;
+    color: #666;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.admin-order-row mark {
+    justify-self: end;
+    padding: 8px 10px;
+    background: #f0f0f0;
+    color: #555;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-order-row mark.paid {
+    background: #e9f7ef;
+    color: #176b36;
+}
+
+.admin-order-row mark.pending {
+    background: #fff7e6;
+    color: #8a5a00;
+}
+
 .admin-list {
     display: grid;
     gap: 12px;
@@ -604,6 +681,19 @@ body {
     .admin-manager {
         grid-template-columns: 1fr;
     }
+
+    .admin-order-row {
+        grid-template-columns: 1fr auto;
+    }
+
+    .admin-order-row > div:nth-child(2) {
+        grid-column: 1;
+    }
+
+    .admin-order-row mark {
+        grid-column: 2;
+        grid-row: 1;
+    }
 }
 
 @media (max-width: 520px) {
@@ -649,6 +739,27 @@ body {
 
     .admin-panel {
         padding: 22px;
+    }
+
+    .admin-panel-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .admin-order-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .admin-order-row > div:nth-child(2),
+    .admin-order-row mark {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .admin-order-row mark {
+        justify-self: start;
     }
 
     .admin-list div {

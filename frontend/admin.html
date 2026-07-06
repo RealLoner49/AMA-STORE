@@ -27,7 +27,7 @@
             <div class="admin-grid">
                 <div class="admin-card">
                     <span>Orders</span>
-                    <strong>24</strong>
+                    <strong data-orders-count>0</strong>
                 </div>
                 <div class="admin-card">
                     <span>Products</span>
@@ -35,11 +35,21 @@
                 </div>
                 <div class="admin-card">
                     <span>Customers</span>
-                    <strong>126</strong>
+                    <strong data-customers-count>0</strong>
                 </div>
                 <div class="admin-card">
                     <span>Revenue</span>
-                    <strong>&#8358;4.2m</strong>
+                    <strong data-revenue-total>&#8358;0</strong>
+                </div>
+            </div>
+
+            <div class="admin-panel admin-orders-panel">
+                <div class="admin-panel-heading">
+                    <h2>Recent Orders</h2>
+                    <span data-orders-status>Loading orders...</span>
+                </div>
+                <div class="admin-orders" data-orders-list>
+                    <p class="admin-empty">Loading orders...</p>
                 </div>
             </div>
 

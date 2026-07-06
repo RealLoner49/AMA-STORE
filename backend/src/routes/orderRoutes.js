@@ -10,9 +10,16 @@ router.get("/", protect, adminOnly, async (req, res) => {
 });
 
 router.post("/", protect, async (req, res) => {
+    const paymentMethod = req.body.paymentMethod || "pay_on_delivery";
+    const paymentReference = String(req.body.paymentReference || "").trim();
+    const status = paymentMethod === "paystack" && paymentReference ? "paid" : "pending";
+
     const order = await Order.create({
         ...req.body,
-        customer: req.user._id
+        customer: req.user._id,
+        paymentMethod,
+        paymentReference,
+        status
     });
 
     res.status(201).json(order);
