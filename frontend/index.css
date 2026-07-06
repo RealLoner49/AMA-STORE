@@ -830,9 +830,9 @@ body.modal-open {
 .newsletter-section {
     display: flex;
     justify-content: space-between;
-    gap: 40px;
+    gap: 48px;
     align-items: center;
-    padding: 76px 24px;
+    padding: 76px max(24px, calc((100vw - 1500px) / 2));
     background: #f6f6f6;
     border-top: 1px solid #e5e5e5;
 }
@@ -840,6 +840,35 @@ body.modal-open {
 .newsletter-section > div,
 .newsletter-form {
     width: min(100%, 560px);
+}
+
+.newsletter-copy p:not(.section-kicker) {
+    max-width: 520px;
+    margin: 16px 0 0;
+    color: #555;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.newsletter-perks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.newsletter-perks span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #111;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .newsletter-form {
@@ -852,15 +881,16 @@ body.modal-open {
 .newsletter-form input {
     flex: 1;
     min-width: 0;
-    padding: 16px 18px;
+    padding: 18px 20px;
     border: 1px solid #d8d8d8;
     background: #fff;
     color: #111;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .newsletter-form button {
-    padding: 16px 28px;
+    min-width: 112px;
+    padding: 18px 28px;
     border: 0;
     background: #111;
     color: #fff;
@@ -1630,6 +1660,15 @@ body.modal-open {
         align-items: flex-start;
     }
 
+    .newsletter-section > div,
+    .newsletter-form {
+        width: 100%;
+    }
+
+    .newsletter-copy p:not(.section-kicker) {
+        max-width: 620px;
+    }
+
     .cart-layout {
         grid-template-columns: 1fr;
     }
@@ -1803,10 +1842,26 @@ body.modal-open {
 
     .newsletter-form {
         flex-direction: column;
+        padding-bottom: 34px;
     }
 
     .newsletter-form button {
         width: 100%;
+    }
+
+    .newsletter-copy p:not(.section-kicker) {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .newsletter-perks {
+        gap: 8px;
+    }
+
+    .newsletter-perks span {
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 11px;
     }
 
     .cart-section {
