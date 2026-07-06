@@ -436,6 +436,18 @@ body.modal-open {
     overflow: auto;
 }
 
+@keyframes productSheetUp {
+    from {
+        opacity: 0;
+        transform: translateY(28px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .product-modal-close {
     position: absolute;
     top: 14px;
@@ -1956,39 +1968,59 @@ body.modal-open {
     }
 
     .product-modal {
-        align-items: stretch;
-        background: #fff;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0 10px max(10px, env(safe-area-inset-bottom));
+        background: transparent;
     }
 
     .product-modal-backdrop {
-        background: rgba(0, 0, 0, 0.42);
+        background: rgba(0, 0, 0, 0.58);
     }
 
     .product-modal-panel {
         width: 100%;
-        max-height: 100dvh;
-        min-height: 100dvh;
-        border-radius: 0;
-        box-shadow: none;
+        max-height: min(88dvh, 780px);
+        min-height: auto;
+        border-radius: 24px 24px 0 0;
+        box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.32);
         display: flex;
         flex-direction: column;
+        overflow: auto;
+        animation: productSheetUp 0.24s ease-out;
+    }
+
+    .product-modal-panel::before {
+        content: "";
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        width: 42px;
+        height: 4px;
+        flex: 0 0 auto;
+        align-self: center;
+        margin: 10px 0 8px;
+        border-radius: 999px;
+        background: #cfcfcf;
     }
 
     .product-modal-close {
-        position: fixed;
-        top: max(12px, env(safe-area-inset-top));
-        right: 12px;
-        width: 44px;
-        height: 44px;
+        position: absolute;
+        top: 16px;
+        right: 14px;
+        width: 40px;
+        height: 40px;
         border: 1px solid #d8d8d8;
+        background: rgba(255, 255, 255, 0.96);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-        font-size: 24px;
+        font-size: 23px;
     }
 
     .product-modal-image {
         flex: 0 0 auto;
-        height: min(34dvh, 270px);
-        min-height: 210px;
+        height: clamp(180px, 30dvh, 250px);
+        min-height: 0;
+        margin-top: -22px;
     }
 
     .product-modal-image img {
@@ -1997,8 +2029,8 @@ body.modal-open {
     }
 
     .product-modal-content {
-        flex: 1;
-        padding: 22px 18px calc(18px + env(safe-area-inset-bottom));
+        flex: 0 0 auto;
+        padding: 20px 18px 0;
         overflow: visible;
     }
 
@@ -2047,8 +2079,8 @@ body.modal-open {
         bottom: 0;
         z-index: 1;
         gap: 8px;
-        margin: 18px -18px calc(-18px - env(safe-area-inset-bottom));
-        padding: 12px 18px calc(12px + env(safe-area-inset-bottom));
+        margin: 18px -18px 0;
+        padding: 12px 18px max(12px, env(safe-area-inset-bottom));
         background: #fff;
         border-top: 1px solid #e8e8e8;
     }
