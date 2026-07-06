@@ -28,7 +28,7 @@ router.post("/", requireDatabase, async (req, res) => {
         source: req.body.source || "home"
     });
 
-    res.status(201).json({ message: "You're on the list. We'll send new-drop updates first." });
+    res.status(201).json({ message: "Email saved. You'll get AMA new-drop updates first." });
 });
 
 router.get("/", protect, adminOnly, requireDatabase, async (req, res) => {

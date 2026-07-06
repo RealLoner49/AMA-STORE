@@ -11,12 +11,19 @@ const setNewsletterMessage = (message, type = "") => {
 
 const parseApiMessage = async (response) => {
     const responseText = await response.text();
+    const cleanText = responseText.trim();
+
+    if (!cleanText) return "";
+
+    if (cleanText.startsWith("<!DOCTYPE") || cleanText.startsWith("<html")) {
+        return "";
+    }
 
     try {
-        const data = JSON.parse(responseText);
+        const data = JSON.parse(cleanText);
         return data.message || "";
     } catch (error) {
-        return responseText.trim();
+        return cleanText;
     }
 };
 
@@ -46,7 +53,7 @@ if (newsletterForm) {
             }
 
             newsletterForm.reset();
-            setNewsletterMessage(message || "You're on the list. We'll send new-drop updates first.", "success");
+            setNewsletterMessage(message || "Email saved. You'll get AMA new-drop updates first.", "success");
         } catch (error) {
             const fallbackMessage = isLocalNewsletterFrontend
                 ? "Could not reach the local backend. Start it on port 5000, then try again."
