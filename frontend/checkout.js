@@ -5,6 +5,7 @@ const isLocalFrontend = ["127.0.0.1", "localhost"].includes(window.location.host
 const API_BASE = isLocalFrontend ? "http://localhost:5000/api" : "/api";
 const checkoutToken = localStorage.getItem("amaToken");
 const checkoutSession = JSON.parse(localStorage.getItem("amaSession") || "null");
+const pendingPaidOrderKey = "amaPendingPaidOrder";
 let isSubmittingCheckout = false;
 
 if (!checkoutToken || !checkoutSession) {
@@ -26,6 +27,9 @@ const escapeHtml = (value) => String(value ?? "")
     .replace(/'/g, "&#039;");
 
 const getCart = () => JSON.parse(localStorage.getItem("amaCart") || "[]");
+const getPendingPaidOrder = () => JSON.parse(localStorage.getItem(pendingPaidOrderKey) || "null");
+const setPendingPaidOrder = (order) => localStorage.setItem(pendingPaidOrderKey, JSON.stringify(order));
+const clearPendingPaidOrder = () => localStorage.removeItem(pendingPaidOrderKey);
 
 const isObjectId = (value) => /^[a-f\d]{24}$/i.test(String(value || ""));
 
@@ -34,6 +38,31 @@ const setMessage = (message, type = "") => {
     if (!messageEl) return;
     messageEl.textContent = message;
     messageEl.className = `checkout-message ${type}`.trim();
+};
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const isDatabaseConnectionMessage = (message) => /database|mongodb|atlas|network access|disconnected|vercel/i.test(message || "");
+
+const cleanCheckoutError = (message, paymentMethod = "") => {
+    if (isDatabaseConnectionMessage(message)) {
+        return paymentMethod === "paystack"
+            ? "Payment received. We are still saving your order. Please tap Place Order once more."
+            : "We are still saving your order. Please tap Place Order once more.";
+    }
+
+    return message || "Could not place order.";
+};
+
+const buildPaymentReference = () => {
+    const nameSlug = checkoutForm.name.value
+        .trim()
+        .toUpperCase()
+        .replace(/[^A-Z0-9]+/g, "-")
+        .replace(/^-|-$/g, "")
+        .slice(0, 18) || "CUSTOMER";
+
+    return `AMA-STORE-${nameSlug}-${Date.now()}`;
 };
 
 const updatePaymentDetails = () => {
@@ -62,7 +91,7 @@ const buildOrderBody = (cart, subtotal, paymentReference = "") => ({
     paymentReference
 });
 
-const saveOrder = async (body) => {
+const saveOrderOnce = async (body) => {
     const response = await fetch(`${API_BASE}/orders`, {
         method: "POST",
         headers: {
@@ -77,8 +106,33 @@ const saveOrder = async (body) => {
     return data;
 };
 
+const saveOrder = async (body) => {
+    const retryDelays = [0, 1500, 3000, 6000, 10000, 15000];
+    let lastError;
+
+    for (const delay of retryDelays) {
+        if (delay) {
+            setMessage(body.paymentReference ? "Payment received. Saving your order..." : "Finalizing your order...");
+            await wait(delay);
+        }
+
+        try {
+            return await saveOrderOnce(body);
+        } catch (error) {
+            lastError = error;
+
+            if (!isDatabaseConnectionMessage(error.message)) {
+                throw error;
+            }
+        }
+    }
+
+    throw lastError || new Error("Could not place order.");
+};
+
 const finishOrder = () => {
     localStorage.removeItem("amaCart");
+    clearPendingPaidOrder();
     window.updateAmaCartCount?.();
     setMessage("Order placed successfully. Redirecting...", "success");
     setTimeout(() => {
@@ -102,9 +156,15 @@ const payWithPaystack = (cart, subtotal) => new Promise((resolve, reject) => {
         email: checkoutForm.email.value,
         amount: Math.round(subtotal * 100),
         currency: "NGN",
-        ref: `AMA-${Date.now()}`,
+        label: "AMA STORE",
+        ref: buildPaymentReference(),
         metadata: {
             custom_fields: [
+                {
+                    display_name: "AMA STORE",
+                    variable_name: "store_name",
+                    value: "AMA STORE"
+                },
                 {
                     display_name: "Customer Name",
                     variable_name: "customer_name",
@@ -209,18 +269,28 @@ checkoutForm?.addEventListener("submit", async (event) => {
 
     const subtotal = cart.reduce((total, item) => total + Number(item.price || 0) * Number(item.quantity || 1), 0);
     const submitButton = checkoutForm.querySelector(".checkout-submit");
+    const pendingPaidOrder = getPendingPaidOrder();
     isSubmittingCheckout = true;
     if (submitButton) submitButton.disabled = true;
-    setMessage("Placing order...");
+    setMessage(pendingPaidOrder ? "Saving your paid order..." : checkoutForm.paymentMethod.value === "paystack" ? "Opening secure payment..." : "Placing order...");
 
     try {
-        const paymentReference = checkoutForm.paymentMethod.value === "paystack"
+        const paymentReference = pendingPaidOrder
+            ? pendingPaidOrder.paymentReference
+            : checkoutForm.paymentMethod.value === "paystack"
             ? await payWithPaystack(cart, subtotal)
             : "";
-        await saveOrder(buildOrderBody(cart, subtotal, paymentReference));
+        if (paymentReference) {
+            setMessage("Payment received. Saving your order...");
+        }
+        const orderBody = pendingPaidOrder || buildOrderBody(cart, subtotal, paymentReference);
+        if (paymentReference) {
+            setPendingPaidOrder(orderBody);
+        }
+        await saveOrder(orderBody);
         finishOrder();
     } catch (error) {
-        setMessage(error.message, "error");
+        setMessage(cleanCheckoutError(error.message, checkoutForm.paymentMethod.value), "error");
     } finally {
         isSubmittingCheckout = false;
         if (submitButton) submitButton.disabled = false;

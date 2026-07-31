@@ -19,6 +19,7 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", async (req, res, next) => {
+    res.set("Cache-Control", "no-store");
     await connectDB();
     next();
 });
