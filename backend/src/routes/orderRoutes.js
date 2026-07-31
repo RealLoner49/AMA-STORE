@@ -9,6 +9,14 @@ router.get("/", protect, adminOnly, async (req, res) => {
     res.json(orders);
 });
 
+router.get("/me", protect, async (req, res) => {
+    const orders = await Order.find({ customer: req.user._id })
+        .populate("items.product", "name image category")
+        .sort({ createdAt: -1 });
+
+    res.json(orders);
+});
+
 router.post("/", protect, async (req, res) => {
     const paymentMethod = req.body.paymentMethod || "pay_on_delivery";
     const paymentReference = String(req.body.paymentReference || "").trim();

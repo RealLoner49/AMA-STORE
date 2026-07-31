@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - AMA STORE</title>
+    <link rel="stylesheet" href="index.css?v=profile-email-only-status">
+    <link rel="stylesheet" href="shop.css">
+    <link rel="stylesheet" href="profile-fix.css?v=profile-page">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-left">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="shop.html">Shop</a>
+                <a class="nav-link" href="Lookbook.html">Lookbook</a>
+                <a class="nav-link" href="support.html">Support</a>
+            </div>
+
+            <div class="nav-center">
+                <a class="logo" href="index.html">
+                    <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo" class="logo-img">
+                </a>
+            </div>
+
+            <div class="nav-right">
+                <a class="cart" href="login.html" data-auth-link>Login</a>
+                <a class="cart" href="cart.html">Cart</a>
+            </div>
+
+            <button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+
+        <div class="mobile-menu" id="mobileMenu">
+            <a class="mobile-nav-link" href="index.html">Home</a>
+            <a class="mobile-nav-link" href="shop.html">Shop</a>
+            <a class="mobile-nav-link" href="Lookbook.html">Lookbook</a>
+            <a class="mobile-nav-link" href="support.html">Support</a>
+            <a class="mobile-nav-link" href="login.html" data-auth-link>Login</a>
+            <a class="mobile-nav-link" href="cart.html">Cart</a>
+        </div>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-heading">
+            <p class="section-kicker">Account</p>
+            <h1>Profile</h1>
+            <p>Track your AMA STORE orders and current delivery status.</p>
+        </section>
+
+        <section class="profile-grid">
+            <aside class="profile-card profile-account-card">
+                <div class="profile-avatar" data-profile-initials>AM</div>
+                <div class="profile-account-copy">
+                    <span>Name</span>
+                    <strong data-profile-name>Customer</strong>
+                    <span>Email</span>
+                    <strong data-profile-email></strong>
+                </div>
+                <button class="profile-logout" type="button" data-logout>Logout</button>
+            </aside>
+
+            <div class="profile-card profile-summary">
+                <div>
+                    <span>Orders</span>
+                    <strong data-profile-orders-count>0</strong>
+                </div>
+                <div>
+                    <span>Items Ordered</span>
+                    <strong data-profile-items-count>0</strong>
+                </div>
+                <div>
+                    <span>Total Spent</span>
+                    <strong data-profile-total-spent>&#8358;0</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="profile-highlight-grid">
+            <article class="profile-card profile-latest-card">
+                <span>Latest Order</span>
+                <strong data-profile-latest-title>No order yet</strong>
+                <p data-profile-latest-detail>Your latest order status will appear here.</p>
+                <mark class="pending" data-profile-latest-status>Waiting</mark>
+            </article>
+
+            <article class="profile-card profile-support-card">
+                <span>Need Help?</span>
+                <strong>Order Support</strong>
+                <p>Questions about sizing, delivery, or payment can go straight to support.</p>
+                <a href="support.html#contact">Contact Support</a>
+            </article>
+        </section>
+
+        <section class="profile-orders-section">
+            <div class="section-header">
+                <h2 class="section-title">My Orders</h2>
+                <button class="profile-refresh" type="button" data-profile-refresh>Refresh</button>
+            </div>
+            <div class="profile-orders" data-profile-orders>
+                <p class="products-empty">Loading your orders...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="session.js?v=admin-nav-submit-loader"></script>
+    <script src="profile.js?v=profile-email-only-status"></script>
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        hamburger.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('is-open');
+            hamburger.classList.toggle('is-open', isOpen);
+            document.querySelector('header').classList.toggle('menu-open', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+            hamburger.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+        });
+    </script>
+</body>
+</html>
