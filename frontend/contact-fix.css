@@ -1,0 +1,109 @@
+.contact-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+    gap: 38px;
+    align-items: center;
+    padding: 64px max(24px, calc((100vw - 1500px) / 2));
+    background: #fff;
+    border-top: 1px solid #e5e5e5;
+}
+
+.contact-copy h2 {
+    margin: 0;
+    color: #111;
+    font-size: 34px;
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.contact-copy p:not(.section-kicker) {
+    max-width: 460px;
+    margin: 16px 0 0;
+    color: #555;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.contact-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.contact-action {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    background: #f8f8f8;
+    color: #111;
+    text-decoration: none;
+    transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+}
+
+.contact-action:hover {
+    transform: translateY(-4px);
+    border-color: #111;
+    background: #fff;
+}
+
+.contact-action span {
+    color: #777;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.contact-action strong {
+    color: #111;
+    font-size: 14px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 64px 20px;
+    }
+
+    .contact-copy h2 {
+        font-size: 30px;
+    }
+
+    .contact-actions {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-section {
+        padding: 48px 16px;
+    }
+
+    .contact-copy h2 {
+        font-size: 24px;
+    }
+
+    .contact-copy p:not(.section-kicker) {
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    .contact-action {
+        min-height: 94px;
+        padding: 18px;
+    }
+}
