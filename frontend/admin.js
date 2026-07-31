@@ -28,6 +28,7 @@ const adminToastMessage = document.querySelector("[data-admin-toast-message]");
 let editingProductId = "";
 let pendingDeleteProduct = null;
 let adminToastTimer;
+let isSavingProduct = false;
 
 const placementLabels = {
     shop: "Shop page",
@@ -140,8 +141,32 @@ const resetProductForm = () => {
     editingProductId = "";
     productForm?.reset();
     if (imageFileInput) imageFileInput.value = "";
-    if (submitButton) submitButton.textContent = "Add Product";
+    if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Add Product";
+    }
     if (cancelButton) cancelButton.hidden = true;
+};
+
+const setProductSaving = (saving, mode = "add") => {
+    isSavingProduct = saving;
+
+    if (submitButton) {
+        submitButton.disabled = saving;
+        submitButton.textContent = saving
+            ? mode === "edit" ? "Saving..." : "Adding..."
+            : editingProductId ? "Save Product" : "Add Product";
+    }
+
+    if (cancelButton) {
+        cancelButton.disabled = saving;
+    }
+
+    if (saving) {
+        window.holdAmaLoader?.(mode === "edit" ? "Saving product..." : "Adding product...");
+    } else {
+        window.releaseAmaLoader?.();
+    }
 };
 
 const renderProducts = (products) => {
@@ -281,6 +306,8 @@ if (productForm) {
     productForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        if (isSavingProduct) return;
+
         const product = {
             name: productForm.name.value,
             price: Number(cleanNumber(productForm.price.value)),
@@ -295,6 +322,9 @@ if (productForm) {
         try {
             const path = editingProductId ? `/products/${editingProductId}` : "/products";
             const method = editingProductId ? "PUT" : "POST";
+            const mode = editingProductId ? "edit" : "add";
+            setProductSaving(true, mode);
+            setProductMessage(mode === "edit" ? "Saving product..." : "Adding product...");
             await apiRequest(path, {
                 method,
                 body: JSON.stringify(product)
@@ -308,6 +338,8 @@ if (productForm) {
             loadProducts();
         } catch (error) {
             setProductMessage(error.message, "error");
+        } finally {
+            setProductSaving(false, editingProductId ? "edit" : "add");
         }
     });
 }
