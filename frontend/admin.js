@@ -233,7 +233,7 @@ const loadOrders = async () => {
         renderOrders(orders);
     } catch (error) {
         if (ordersStatusEl) ordersStatusEl.textContent = "Orders unavailable";
-        if (ordersList) ordersList.innerHTML = `<p class="admin-empty">${escapeHtml(error.message)}</p>`;
+        if (ordersList) ordersList.innerHTML = `<p class="admin-empty">We are having problem fetching orders.</p>`;
     }
 };
 
