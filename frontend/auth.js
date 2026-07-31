@@ -38,24 +38,28 @@ const request = async (path, body) => {
 
 const isDatabaseConnectionMessage = (message) => /database|mongodb|atlas|network access|disconnected/i.test(message || "");
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 const warmAuthApi = () => {
     fetch(`${API_BASE}/health`).catch(() => {});
 };
 
 const loginRequest = async (body) => {
+    return request("/auth/login", body);
+};
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const signupRequest = async (body) => {
     const retryDelays = [0, 900, 1600, 2400];
     let lastDatabaseError;
 
     for (const delay of retryDelays) {
         if (delay) {
-            setMessage("Signing in...");
+            setMessage("Creating account...");
             await wait(delay);
         }
 
         try {
-            return await request("/auth/login", body);
+            return await request("/auth/signup", body);
         } catch (error) {
             if (!isDatabaseConnectionMessage(error.message)) {
                 throw error;
@@ -65,14 +69,28 @@ const loginRequest = async (body) => {
         }
     }
 
-    throw lastDatabaseError || new Error("Could not sign in yet.");
+    throw lastDatabaseError || new Error("Could not create account yet.");
 };
 
 const loginForm = document.querySelector("[data-login-form]");
 if (loginForm) {
+    const passwordInput = loginForm.querySelector("input[name='password']");
+    const passwordToggle = loginForm.querySelector("[data-password-toggle]");
+
+    passwordToggle?.addEventListener("click", () => {
+        if (!passwordInput) return;
+
+        const shouldShowPassword = passwordInput.type === "password";
+        passwordInput.type = shouldShowPassword ? "text" : "password";
+        passwordToggle.setAttribute("aria-pressed", String(shouldShowPassword));
+        passwordToggle.setAttribute("aria-label", shouldShowPassword ? "Hide password" : "Show password");
+        passwordInput.focus();
+    });
+
     loginForm.addEventListener("submit", async (event) => {
         event.preventDefault();
-        setMessage("Signing in...");
+        setMessage("Logging you in...");
+        window.holdAmaLoader?.("Logging you in...");
         const submitButton = loginForm.querySelector("button[type='submit']");
         if (submitButton) submitButton.disabled = true;
         let isRedirecting = false;
@@ -85,6 +103,7 @@ if (loginForm) {
 
             setSession(data);
             isRedirecting = true;
+            window.showAmaLoader?.(data.user.role === "admin" ? "Opening dashboard..." : "Opening store...");
             window.location.href = data.user.role === "admin" ? "admin.html" : "index.html";
         } catch (error) {
             if (isDatabaseConnectionMessage(error.message)) {
@@ -93,6 +112,7 @@ if (loginForm) {
                 setMessage(error.message, "error");
             }
         } finally {
+            if (!isRedirecting) window.releaseAmaLoader?.();
             if (submitButton && !isRedirecting) submitButton.disabled = false;
         }
     });
@@ -105,20 +125,33 @@ if (signupForm) {
     signupForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         setMessage("Creating account...");
+        window.holdAmaLoader?.("Creating account...");
+        const submitButton = signupForm.querySelector("button[type='submit']");
+        if (submitButton) submitButton.disabled = true;
+        let isRedirecting = false;
 
         try {
-            await request("/auth/signup", {
+            await signupRequest({
                 name: signupForm.name.value,
                 email: signupForm.email.value,
                 password: signupForm.password.value
             });
 
             setMessage("Account created. Redirecting to login...", "success");
+            isRedirecting = true;
+            window.showAmaLoader?.("Opening login...");
             setTimeout(() => {
                 window.location.href = "login.html";
             }, 700);
         } catch (error) {
-            setMessage(error.message, "error");
+            if (isDatabaseConnectionMessage(error.message)) {
+                setMessage("Creating account...");
+            } else {
+                setMessage(error.message, "error");
+            }
+        } finally {
+            if (!isRedirecting) window.releaseAmaLoader?.();
+            if (submitButton && !isRedirecting) submitButton.disabled = false;
         }
     });
 }
