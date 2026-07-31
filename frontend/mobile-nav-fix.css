@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    header.menu-open .nav-center::after {
+        content: none !important;
+        display: none !important;
+    }
+}
