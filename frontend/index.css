@@ -1520,7 +1520,7 @@ body.modal-open {
     }
 
     header.menu-open .nav-center::after {
-        content: "AMA STORE";
+        content: "";
         color: #111;
         font-size: 13px;
         font-weight: 800;
