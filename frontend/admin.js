@@ -12,8 +12,10 @@ const productsCountEl = document.querySelector("[data-products-count]");
 const ordersCountEl = document.querySelector("[data-orders-count]");
 const customersCountEl = document.querySelector("[data-customers-count]");
 const revenueTotalEl = document.querySelector("[data-revenue-total]");
+const ordersPanel = document.querySelector("[data-orders-panel]");
 const ordersList = document.querySelector("[data-orders-list]");
 const ordersStatusEl = document.querySelector("[data-orders-status]");
+const ordersToggleButton = document.querySelector("[data-orders-toggle]");
 const imagePathInput = document.querySelector("[data-image-path]");
 const imageFileInput = document.querySelector("[data-image-file]");
 const imagePickButton = document.querySelector("[data-image-pick]");
@@ -72,6 +74,11 @@ document.querySelectorAll("[data-logout], [data-admin-logout]").forEach((button)
         event.preventDefault();
         redirectToLogin();
     });
+});
+
+ordersToggleButton?.addEventListener("click", () => {
+    const isOpen = ordersPanel?.classList.toggle("is-orders-open") || false;
+    ordersToggleButton.setAttribute("aria-expanded", String(isOpen));
 });
 
 const apiRequest = async (path, options = {}) => {

@@ -346,6 +346,10 @@ body {
     margin: 0;
 }
 
+.admin-orders-toggle {
+    display: none;
+}
+
 .admin-panel-heading span {
     color: #777;
     font-size: 12px;
@@ -781,10 +785,76 @@ body {
         padding: 22px;
     }
 
+    .admin-orders-panel {
+        padding: 0;
+        overflow: hidden;
+    }
+
     .admin-panel-heading {
-        align-items: flex-start;
+        align-items: stretch;
         flex-direction: column;
-        gap: 8px;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    .admin-orders-panel .admin-panel-heading h2 {
+        display: none;
+    }
+
+    .admin-orders-toggle {
+        width: 100%;
+        min-height: 58px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 0 18px;
+        border: 0;
+        border-bottom: 1px solid #e5e5e5;
+        background: #fff;
+        color: #111;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    .admin-orders-toggle svg {
+        flex: 0 0 auto;
+        width: 20px;
+        height: 20px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 0.18s ease;
+    }
+
+    .admin-orders-panel.is-orders-open .admin-orders-toggle svg {
+        transform: rotate(180deg);
+    }
+
+    .admin-orders-panel .admin-panel-heading > span {
+        display: none;
+        padding: 12px 18px;
+        border-bottom: 1px solid #e5e5e5;
+        background: #fafafa;
+    }
+
+    .admin-orders-panel.is-orders-open .admin-panel-heading > span {
+        display: block;
+    }
+
+    .admin-orders {
+        display: none;
+        padding: 14px 18px 18px;
+    }
+
+    .admin-orders-panel.is-orders-open .admin-orders {
+        display: grid;
     }
 
     .admin-order-row {
