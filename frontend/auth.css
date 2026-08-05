@@ -114,6 +114,46 @@ body {
     border-color: #111;
 }
 
+.auth-password-control {
+    position: relative;
+}
+
+.auth-password-control input {
+    padding-right: 54px;
+}
+
+.auth-password-control button {
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: #555;
+    cursor: pointer;
+}
+
+.auth-password-control button:hover,
+.auth-password-control button:focus-visible {
+    color: #111;
+    outline: none;
+}
+
+.auth-password-control svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .auth-button {
     min-height: 52px;
     margin-top: 6px;

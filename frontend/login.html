@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - AMA STORE</title>
-    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="auth.css?v=login-password-eye-align">
 </head>
 <body>
     <main class="auth-shell">
@@ -28,7 +28,15 @@
 
                 <div class="auth-field">
                     <label for="password">Password</label>
-                    <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
+                    <div class="auth-password-control">
+                        <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required>
+                        <button type="button" data-password-toggle aria-label="Show password" aria-pressed="false">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
                 <button class="auth-button" type="submit">Login</button>
