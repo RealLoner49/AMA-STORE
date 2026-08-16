@@ -33,6 +33,15 @@ const productSchema = new mongoose.Schema(
             default: "Gym Essentials",
             trim: true
         },
+        sizes: {
+            type: [{
+                type: String,
+                trim: true,
+                uppercase: true,
+                enum: ["XS", "S", "M", "L", "XL"]
+            }],
+            default: []
+        },
         stock: {
             type: Number,
             default: 0,

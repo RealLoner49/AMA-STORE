@@ -11,6 +11,7 @@ const defaultProducts = seedProducts.map((product, index) => ({
     _id: `local-ama-${index + 1}`,
     ...product,
     images: Array.isArray(product.images) ? product.images.slice(0, 3) : [product.image].filter(Boolean),
+    sizes: Array.isArray(product.sizes) ? product.sizes : [],
     createdAt: new Date().toISOString()
 }));
 
@@ -60,6 +61,7 @@ const createProduct = (product) => {
         image: product.image || images[0],
         images,
         category: product.category || "Collection",
+        sizes: Array.isArray(product.sizes) ? product.sizes : [],
         placement: product.placement || "both",
         stock: Number(product.stock || 0),
         featured: Boolean(product.featured),

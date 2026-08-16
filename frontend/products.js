@@ -93,6 +93,15 @@ const getProductImages = (product) => {
         .slice(0, 3);
 };
 
+const getProductSizes = (product) => {
+    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+
+    return sizes
+        .map((size) => String(size || "").trim().toUpperCase())
+        .filter(Boolean)
+        .filter((size, index, list) => list.indexOf(size) === index);
+};
+
 const renderProductModal = () => {
     if (document.querySelector("[data-product-modal]")) return;
 
@@ -126,8 +135,8 @@ const renderProductModal = () => {
                             <strong data-modal-placement></strong>
                         </div>
                         <div>
-                            <span>Featured</span>
-                            <strong data-modal-featured></strong>
+                            <span>Sizes</span>
+                            <strong data-modal-sizes></strong>
                         </div>
                     </div>
                     <div class="product-modal-actions">
@@ -194,7 +203,7 @@ const openProductModal = (product) => {
     setText("[data-modal-availability]", stock > 0 ? "In stock" : "Out of stock");
     setText("[data-modal-stock]", `${stock} item${stock === 1 ? "" : "s"}`);
     setText("[data-modal-placement]", placementLabels[product.placement] || "Shop + Lookbook");
-    setText("[data-modal-featured]", product.featured ? "Yes" : "No");
+    setText("[data-modal-sizes]", getProductSizes(product).join(", ") || "Ask for size");
 
     modal.hidden = false;
     document.body.classList.add("modal-open");

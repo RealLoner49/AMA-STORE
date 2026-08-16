@@ -963,11 +963,79 @@ body {
     font-size: 10px;
 }
 
+.admin-image-thumb-actions {
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    left: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+}
+
+.admin-image-thumb-actions button {
+    min-width: 0;
+    height: 24px;
+    border: 0;
+    background: rgba(17, 17, 17, 0.86);
+    color: #fff;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.admin-image-thumb-actions button:disabled {
+    cursor: not-allowed;
+    opacity: 0.38;
+}
+
 .admin-image-hint {
     grid-column: 1 / -1;
     color: #777;
     font-size: 12px;
     line-height: 1.4;
+}
+
+.admin-size-field {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.admin-size-field legend {
+    padding: 0;
+    color: #111;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-size-options {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.admin-size-options label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px !important;
+    border: 1px solid #d8d8d8;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+
+.admin-size-options input {
+    width: auto;
 }
 
 .admin-check {

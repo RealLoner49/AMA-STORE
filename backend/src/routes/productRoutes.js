@@ -38,15 +38,22 @@ const normalizeProductBody = (body) => {
     const images = Array.isArray(body.images)
         ? body.images.map((image) => String(image || "").trim()).filter(Boolean).slice(0, 3)
         : [];
+    const sizes = Array.isArray(body.sizes)
+        ? body.sizes.map((size) => String(size || "").trim().toUpperCase()).filter(Boolean)
+        : [];
     const primaryImage = String(body.image || images[0] || "").trim();
     const normalizedImages = [primaryImage, ...images].filter(Boolean)
         .filter((image, index, list) => list.indexOf(image) === index)
         .slice(0, 3);
+    const normalizedSizes = sizes
+        .filter((size, index, list) => list.indexOf(size) === index)
+        .filter((size) => ["XS", "S", "M", "L", "XL"].includes(size));
 
     return {
         ...body,
         image: normalizedImages[0] || primaryImage,
-        images: normalizedImages
+        images: normalizedImages,
+        sizes: normalizedSizes
     };
 };
 

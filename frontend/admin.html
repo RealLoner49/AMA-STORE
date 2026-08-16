@@ -97,6 +97,17 @@
                             <input name="category" type="text" placeholder="Gym Essentials" required>
                         </label>
 
+                        <fieldset class="admin-size-field">
+                            <legend>Available Sizes</legend>
+                            <div class="admin-size-options">
+                                <label><input name="sizes" type="checkbox" value="XS"> XS</label>
+                                <label><input name="sizes" type="checkbox" value="S"> S</label>
+                                <label><input name="sizes" type="checkbox" value="M"> M</label>
+                                <label><input name="sizes" type="checkbox" value="L"> L</label>
+                                <label><input name="sizes" type="checkbox" value="XL"> XL</label>
+                            </div>
+                        </fieldset>
+
                         <label>
                             Show Product On
                             <select name="placement" required>
@@ -157,7 +168,7 @@
             <div data-order-modal-content></div>
         </section>
     </div>
-    <script src="admin.js?v=three-image-admin-picker"></script>
+    <script src="admin.js?v=size-image-controls"></script>
     <script src="admin-image-compress.js?v=three-image-admin-picker"></script>
     <script src="session.js?v=admin-nav-submit-loader"></script>
 </body>

@@ -24,6 +24,7 @@ const imageFileInput = document.querySelector("[data-image-file]");
 const imagePickButton = document.querySelector("[data-image-pick]");
 const imagePreview = document.querySelector("[data-image-preview]");
 const priceInput = productForm?.elements.price;
+const sizeInputs = productForm ? [...productForm.querySelectorAll('input[name="sizes"]')] : [];
 const deleteModal = document.querySelector("[data-delete-modal]");
 const deleteProductNameEl = document.querySelector("[data-delete-product-name]");
 const deleteConfirmButton = document.querySelector("[data-delete-confirm]");
@@ -175,6 +176,7 @@ const resetProductForm = () => {
     selectedProductImages = [];
     if (imagePathInput) imagePathInput.dataset.images = "";
     if (imageSummaryInput) imageSummaryInput.value = "";
+    setSelectedProductSizes([]);
     renderImagePreview();
     if (submitButton) {
         submitButton.disabled = false;
@@ -191,6 +193,26 @@ const getProductImages = (product) => {
         .filter(Boolean)
         .filter((image, index, list) => list.indexOf(image) === index)
         .slice(0, 3);
+};
+
+const getProductSizes = (product) => {
+    const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+
+    return sizes
+        .map((size) => String(size || "").trim().toUpperCase())
+        .filter(Boolean)
+        .filter((size, index, list) => list.indexOf(size) === index);
+};
+
+const getSelectedProductSizes = () => sizeInputs
+    .filter((input) => input.checked)
+    .map((input) => input.value);
+
+const setSelectedProductSizes = (sizes) => {
+    const selectedSizes = getProductSizes({ sizes });
+    sizeInputs.forEach((input) => {
+        input.checked = selectedSizes.includes(input.value);
+    });
 };
 
 const renderImagePreview = () => {
@@ -210,9 +232,14 @@ const renderImagePreview = () => {
 
     imagePreview.innerHTML = selectedProductImages.length
         ? selectedProductImages.map((image, index) => `
-            <span class="admin-image-thumb">
+            <span class="admin-image-thumb" data-image-index="${index}">
                 <img src="${escapeHtml(image)}" alt="Product image ${index + 1}">
                 <b>${index + 1}</b>
+                <span class="admin-image-thumb-actions" aria-label="Product image ${index + 1} controls">
+                    <button type="button" data-image-move-left="${index}" ${index === 0 ? "disabled" : ""} aria-label="Move image ${index + 1} earlier">&lsaquo;</button>
+                    <button type="button" data-image-remove="${index}" aria-label="Remove image ${index + 1}">&times;</button>
+                    <button type="button" data-image-move-right="${index}" ${index === selectedProductImages.length - 1 ? "disabled" : ""} aria-label="Move image ${index + 1} later">&rsaquo;</button>
+                </span>
             </span>
         `).join("")
         : `<span class="admin-image-hint">Choose up to 3 images. The first image shows on product cards.</span>`;
@@ -612,6 +639,7 @@ const fillProductForm = async (id) => {
         productForm.price.value = formatNumberWithCommas(product.price);
         setSelectedProductImages(getProductImages(product));
         productForm.category.value = product.category;
+        setSelectedProductSizes(product.sizes);
         productForm.placement.value = product.placement || "both";
         productForm.stock.value = product.stock;
         productForm.featured.checked = product.featured;
@@ -654,6 +682,7 @@ if (productForm) {
             image: images[0] || productForm.image.value,
             images,
             category: productForm.category.value,
+            sizes: getSelectedProductSizes(),
             placement: productForm.placement.value,
             stock: Number(productForm.stock.value || 0),
             featured: productForm.featured.checked
@@ -699,6 +728,36 @@ imagePickButton?.addEventListener("click", openImagePicker);
 imagePathInput?.addEventListener("input", () => {
     if (imagePathInput) imagePathInput.dataset.images = "";
     setSelectedProductImages(imagePathInput?.value ? [imagePathInput.value] : []);
+});
+
+imagePreview?.addEventListener("click", (event) => {
+    const removeIndex = event.target.dataset.imageRemove;
+    const moveLeftIndex = event.target.dataset.imageMoveLeft;
+    const moveRightIndex = event.target.dataset.imageMoveRight;
+
+    if (removeIndex !== undefined) {
+        selectedProductImages.splice(Number(removeIndex), 1);
+        setSelectedProductImages(selectedProductImages);
+        if (imageFileInput) imageFileInput.value = "";
+        return;
+    }
+
+    if (moveLeftIndex !== undefined) {
+        const index = Number(moveLeftIndex);
+        if (index > 0) {
+            [selectedProductImages[index - 1], selectedProductImages[index]] = [selectedProductImages[index], selectedProductImages[index - 1]];
+            setSelectedProductImages(selectedProductImages);
+        }
+        return;
+    }
+
+    if (moveRightIndex !== undefined) {
+        const index = Number(moveRightIndex);
+        if (index < selectedProductImages.length - 1) {
+            [selectedProductImages[index], selectedProductImages[index + 1]] = [selectedProductImages[index + 1], selectedProductImages[index]];
+            setSelectedProductImages(selectedProductImages);
+        }
+    }
 });
 
 imageFileInput?.addEventListener("change", () => {

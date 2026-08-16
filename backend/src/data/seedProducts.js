@@ -4,6 +4,7 @@ const seedProducts = [
         price: 75000,
         image: "./Imgs/Ama1.jpeg",
         category: "Gym Essentials",
+        sizes: ["S", "M", "L"],
         stock: 12,
         featured: true,
         placement: "both"
@@ -13,6 +14,7 @@ const seedProducts = [
         price: 89000,
         image: "./Imgs/Ama2.jpeg",
         category: "Gym Essentials",
+        sizes: ["XS", "S", "M"],
         stock: 10,
         featured: true,
         placement: "both"
@@ -22,6 +24,7 @@ const seedProducts = [
         price: 79000,
         image: "./Imgs/Ama4.jpeg",
         category: "Training",
+        sizes: ["S", "M", "L"],
         stock: 8,
         featured: true,
         placement: "both"
@@ -31,6 +34,7 @@ const seedProducts = [
         price: 85000,
         image: "./Imgs/Ama6.jpeg",
         category: "Training",
+        sizes: ["M", "L", "XL"],
         stock: 9,
         featured: false,
         placement: "both"
@@ -40,6 +44,7 @@ const seedProducts = [
         price: 82000,
         image: "./Imgs/Ama3.jpeg",
         category: "Performance",
+        sizes: ["XS", "S", "M"],
         stock: 11,
         featured: true,
         placement: "lookbook"
@@ -49,6 +54,7 @@ const seedProducts = [
         price: 78000,
         image: "./Imgs/Ama5.jpeg",
         category: "Active Wear",
+        sizes: ["S", "M", "L", "XL"],
         stock: 7,
         featured: false,
         placement: "lookbook"
@@ -58,6 +64,7 @@ const seedProducts = [
         price: 90000,
         image: "./Imgs/Ama1.jpeg",
         category: "Sport Collection",
+        sizes: ["M", "L"],
         stock: 6,
         featured: false,
         placement: "shop"
@@ -67,6 +74,7 @@ const seedProducts = [
         price: 95000,
         image: "./Imgs/Ama2.jpeg",
         category: "Premium Series",
+        sizes: ["XS", "S", "M", "L"],
         stock: 5,
         featured: true,
         placement: "both"
