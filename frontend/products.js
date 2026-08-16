@@ -115,6 +115,7 @@ const renderProductModal = () => {
                     <button class="product-modal-arrow prev" type="button" data-modal-image-prev aria-label="Previous product image" hidden>&lsaquo;</button>
                     <button class="product-modal-arrow next" type="button" data-modal-image-next aria-label="Next product image" hidden>&rsaquo;</button>
                     <span class="product-modal-image-count" data-modal-image-count hidden></span>
+                    <div class="product-modal-thumbs" data-modal-thumbs hidden></div>
                 </div>
                 <div class="product-modal-content">
                     <p class="product-modal-kicker" data-modal-category></p>
@@ -185,6 +186,18 @@ const setModalImage = (index) => {
         element.hidden = !hasMultipleImages;
     });
     setText("[data-modal-image-count]", `${activeProductImageIndex + 1} / ${activeProductImages.length}`);
+
+    const thumbs = modal.querySelector("[data-modal-thumbs]");
+    if (thumbs) {
+        thumbs.hidden = !hasMultipleImages;
+        thumbs.innerHTML = hasMultipleImages
+            ? activeProductImages.map((thumb, thumbIndex) => `
+                <button class="${thumbIndex === activeProductImageIndex ? "active" : ""}" type="button" data-modal-thumb="${thumbIndex}" aria-label="View product image ${thumbIndex + 1}">
+                    <img src="${escapeHtml(thumb)}" alt="">
+                </button>
+            `).join("")
+            : "";
+    }
 };
 
 const openProductModal = (product) => {
@@ -448,6 +461,12 @@ document.addEventListener("click", (event) => {
 
     if (event.target.closest("[data-modal-image-next]")) {
         setModalImage(activeProductImageIndex + 1);
+        return;
+    }
+
+    const thumb = event.target.closest("[data-modal-thumb]");
+    if (thumb) {
+        setModalImage(Number(thumb.dataset.modalThumb));
         return;
     }
 

@@ -11,13 +11,13 @@
 
 .product-modal-arrow {
     z-index: 3;
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     border: 1px solid rgba(255, 255, 255, 0.72);
     border-radius: 50%;
     background: rgba(17, 17, 17, 0.76);
     color: #fff;
-    font-size: 32px;
+    font-size: 28px;
     box-shadow: 0 14px 38px rgba(0, 0, 0, 0.22);
     backdrop-filter: blur(10px);
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
@@ -51,6 +51,46 @@
     backdrop-filter: blur(10px);
 }
 
+.product-modal-thumbs[hidden] {
+    display: none;
+}
+
+.product-modal-thumbs {
+    position: absolute;
+    left: 18px;
+    bottom: 16px;
+    z-index: 4;
+    display: flex;
+    gap: 7px;
+}
+
+.product-modal-thumbs button {
+    width: 42px;
+    height: 52px;
+    padding: 0;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    background: #fff;
+    cursor: pointer;
+    overflow: hidden;
+    opacity: 0.72;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.18s ease, opacity 0.18s ease, transform 0.18s ease;
+}
+
+.product-modal-thumbs button.active,
+.product-modal-thumbs button:hover {
+    border-color: #111;
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.product-modal-thumbs img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
 .product-modal-content {
     overflow: auto;
 }
@@ -76,9 +116,9 @@
     }
 
     .product-modal-arrow {
-        width: 42px;
-        height: 42px;
-        font-size: 26px;
+        width: 38px;
+        height: 38px;
+        font-size: 24px;
     }
 
     .product-modal-arrow.prev {
@@ -90,9 +130,21 @@
     }
 
     .product-modal-image-count {
-        right: 18px;
+        right: 12px;
         bottom: 10px;
         padding: 7px 10px;
         font-size: 10px;
+    }
+
+    .product-modal-thumbs {
+        left: 12px;
+        bottom: 10px;
+        gap: 5px;
+    }
+
+    .product-modal-thumbs button {
+        width: 34px;
+        height: 42px;
+        border-width: 1px;
     }
 }
