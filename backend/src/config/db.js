@@ -11,7 +11,7 @@ const connectDB = async () => {
             throw new Error("MONGODB_URI is missing. Add it to backend/.env.");
         }
 
-        if (mongoose.connection.readyState === 1 || mongoose.connection.readyState === 2) {
+        if (mongoose.connection.readyState === 1) {
             return true;
         }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lookbook - AMA STORE</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css?v=profile-logout-radius">
     <link rel="stylesheet" href="lookbook.css">
     <link rel="stylesheet" href="mobile-nav-fix.css?v=logo-only-mobile-menu">
 </head>
@@ -51,8 +51,7 @@
         <p>Discover Our Latest Collections & Styling Inspirations</p>
     </section>
 
-    <section class="lookbook-gallery" data-lookbook-gallery>
-        <p class="products-empty">Loading lookbook products...</p>
+    <section class="lookbook-gallery" data-lookbook-gallery aria-busy="true">
     </section>
 
     <section class="lookbook-story">
@@ -66,8 +65,7 @@
     <section class="lookbook-collections">
         <h2>Featured Collections</h2>
         
-        <div class="collections-grid" data-lookbook-collections>
-            <p class="products-empty">Loading featured collections...</p>
+        <div class="collections-grid" data-lookbook-collections aria-busy="true">
         </div>
     </section>
 
@@ -121,8 +119,8 @@
             </div>
         </div>
     </footer>
-    <script src="products.js"></script>
     <script src="session.js?v=admin-nav-submit-loader"></script>
+    <script src="products.js?v=product-loader-hold"></script>
     <script>
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');

@@ -5,6 +5,8 @@ const isLocalFrontend = ["127.0.0.1", "localhost"].includes(window.location.host
 const API_BASES = isLocalFrontend ? ["http://localhost:5000/api", "/api"] : ["/api"];
 const pageType = document.body.dataset.productsPage || "";
 const filterInputs = document.querySelectorAll("[data-filter-type]");
+const PRODUCT_RETRY_DELAY_MS = 1400;
+const PRODUCT_RETRY_MAX_DELAY_MS = 4200;
 let availableProducts = [];
 let activeProduct = null;
 let toastTimer;
@@ -66,6 +68,18 @@ const renderCollectionCard = (product) => `
 `;
 
 const renderEmptyState = (message) => `<p class="products-empty">${message}</p>`;
+const productTargets = [...productGrids, lookbookGallery, lookbookCollections].filter(Boolean);
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const setProductTargetsBusy = (isBusy) => {
+    productTargets.forEach((target) => target.setAttribute("aria-busy", String(isBusy)));
+};
+
+const clearProductTargets = () => {
+    productTargets.forEach((target) => {
+        target.innerHTML = "";
+    });
+};
 
 const renderProductModal = () => {
     if (document.querySelector("[data-product-modal]")) return;
@@ -233,6 +247,20 @@ const fetchProducts = async (query) => {
     throw lastError || new Error("Products request failed.");
 };
 
+const fetchProductsUntilReady = async (query) => {
+    let attempt = 0;
+
+    while (true) {
+        try {
+            return await fetchProducts(query);
+        } catch (error) {
+            attempt += 1;
+            const delay = Math.min(PRODUCT_RETRY_DELAY_MS * attempt, PRODUCT_RETRY_MAX_DELAY_MS);
+            await wait(delay);
+        }
+    }
+};
+
 const getProductValues = (product, key) => {
     const value = product[key];
     if (!value) return [];
@@ -300,9 +328,13 @@ const applyFilters = () => {
 const loadProducts = async () => {
     if (!productGrids.length && !lookbookGallery && !lookbookCollections) return;
 
+    window.holdAmaLoader?.("Preparing collection...");
+    setProductTargetsBusy(true);
+    clearProductTargets();
+
     try {
         const query = pageType ? `?page=${encodeURIComponent(pageType)}` : "";
-        const products = await fetchProducts(query);
+        const products = await fetchProductsUntilReady(query);
         availableProducts = Array.isArray(products) ? products : [];
         if (!Array.isArray(products) || products.length === 0) {
             productGrids.forEach((productsGrid) => {
@@ -347,6 +379,9 @@ const loadProducts = async () => {
         if (lookbookCollections) {
             lookbookCollections.innerHTML = renderEmptyState("Featured collections are temporarily unavailable.");
         }
+    } finally {
+        setProductTargetsBusy(false);
+        window.releaseAmaLoader?.(260);
     }
 };
 

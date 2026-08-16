@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop - AMA STORE</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css?v=profile-logout-radius">
     <link rel="stylesheet" href="shop.css">
     <link rel="stylesheet" href="mobile-nav-fix.css?v=logo-only-mobile-menu">
 </head>
@@ -88,8 +88,7 @@
         </div>
 
         <div class="shop-products">
-            <div class="products-grid" data-products-grid data-show-cart>
-                <p class="products-empty">Loading products...</p>
+            <div class="products-grid" data-products-grid data-show-cart aria-busy="true">
             </div>
         </div>
     </section>
@@ -122,8 +121,8 @@
             <p>&copy; 2026 AMA STORE. All rights reserved.</p>
         </div>
     </footer>
-    <script src="products.js"></script>
     <script src="session.js?v=admin-nav-submit-loader"></script>
+    <script src="products.js?v=product-loader-hold"></script>
     <script>
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobileMenu');
