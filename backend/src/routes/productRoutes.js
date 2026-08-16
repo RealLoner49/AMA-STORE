@@ -5,7 +5,7 @@ const { connectDB, isDatabaseConnected } = require("../config/db");
 const localStore = require("../data/localStore");
 
 const router = express.Router();
-const canUseLocalStore = () => !process.env.VERCEL && !process.env.MONGODB_URI;
+const canWriteLocalStore = () => !process.env.VERCEL && !process.env.MONGODB_URI;
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const ensureProductsDatabase = async () => {
@@ -40,10 +40,6 @@ router.get("/", async (req, res) => {
     const shouldFilterByPage = validPages.includes(page);
 
     if (!await ensureProductsDatabase()) {
-        if (!canUseLocalStore()) {
-            return productsUnavailable(res);
-        }
-
         const products = localStore.listProducts();
         return res.json(shouldFilterByPage ? products.filter((product) => product.placement === page || product.placement === "both") : products);
     }
@@ -55,10 +51,6 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     if (!await ensureProductsDatabase()) {
-        if (!canUseLocalStore()) {
-            return productsUnavailable(res);
-        }
-
         const product = localStore.getProduct(req.params.id);
 
         if (!product) {
@@ -79,7 +71,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", protect, adminOnly, async (req, res) => {
     if (!await ensureProductsDatabase()) {
-        if (!canUseLocalStore()) {
+        if (!canWriteLocalStore()) {
             return productsUnavailable(res);
         }
 
@@ -92,7 +84,7 @@ router.post("/", protect, adminOnly, async (req, res) => {
 
 router.put("/:id", protect, adminOnly, async (req, res) => {
     if (!await ensureProductsDatabase()) {
-        if (!canUseLocalStore()) {
+        if (!canWriteLocalStore()) {
             return productsUnavailable(res);
         }
 
@@ -119,7 +111,7 @@ router.put("/:id", protect, adminOnly, async (req, res) => {
 
 router.delete("/:id", protect, adminOnly, async (req, res) => {
     if (!await ensureProductsDatabase()) {
-        if (!canUseLocalStore()) {
+        if (!canWriteLocalStore()) {
             return productsUnavailable(res);
         }
 

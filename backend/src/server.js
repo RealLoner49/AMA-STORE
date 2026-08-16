@@ -20,6 +20,12 @@ app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", async (req, res, next) => {
     res.set("Cache-Control", "no-store");
+
+    if (req.method === "GET" && req.path.startsWith("/products")) {
+        connectDB();
+        return next();
+    }
+
     await connectDB();
     next();
 });

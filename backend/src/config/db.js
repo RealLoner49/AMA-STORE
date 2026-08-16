@@ -16,7 +16,7 @@ const connectDB = async () => {
         }
 
         if (connectionPromise) {
-            return connectionPromise;
+            return await connectionPromise;
         }
 
         connectionPromise = mongoose.connect(process.env.MONGODB_URI, {
