@@ -34,6 +34,22 @@ const productsUnavailable = (res) => res.status(503).json({
     message: "Products are still connecting. Please try again."
 });
 
+const normalizeProductBody = (body) => {
+    const images = Array.isArray(body.images)
+        ? body.images.map((image) => String(image || "").trim()).filter(Boolean).slice(0, 3)
+        : [];
+    const primaryImage = String(body.image || images[0] || "").trim();
+    const normalizedImages = [primaryImage, ...images].filter(Boolean)
+        .filter((image, index, list) => list.indexOf(image) === index)
+        .slice(0, 3);
+
+    return {
+        ...body,
+        image: normalizedImages[0] || primaryImage,
+        images: normalizedImages
+    };
+};
+
 router.get("/", async (req, res) => {
     const { page } = req.query;
     const validPages = ["shop", "lookbook"];
@@ -70,25 +86,29 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", protect, adminOnly, async (req, res) => {
+    const productBody = normalizeProductBody(req.body);
+
     if (!await ensureProductsDatabase()) {
         if (!canWriteLocalStore()) {
             return productsUnavailable(res);
         }
 
-        return res.status(201).json(localStore.createProduct(req.body));
+        return res.status(201).json(localStore.createProduct(productBody));
     }
 
-    const product = await Product.create(req.body);
+    const product = await Product.create(productBody);
     res.status(201).json(product);
 });
 
 router.put("/:id", protect, adminOnly, async (req, res) => {
+    const productBody = normalizeProductBody(req.body);
+
     if (!await ensureProductsDatabase()) {
         if (!canWriteLocalStore()) {
             return productsUnavailable(res);
         }
 
-        const product = localStore.updateProduct(req.params.id, req.body);
+        const product = localStore.updateProduct(req.params.id, productBody);
 
         if (!product) {
             return res.status(404).json({ message: "Product not found." });
@@ -97,7 +117,7 @@ router.put("/:id", protect, adminOnly, async (req, res) => {
         return res.json(product);
     }
 
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    const product = await Product.findByIdAndUpdate(req.params.id, productBody, {
         new: true,
         runValidators: true
     });

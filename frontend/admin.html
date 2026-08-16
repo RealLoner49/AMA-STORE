@@ -10,7 +10,6 @@
     <main class="admin-shell">
         <header class="admin-header">
             <div class="admin-brand">
-                <img src="./Imgs/LOGO.jpeg" alt="AMA STORE Logo">
                 <span>AMA Admin</span>
             </div>
 
@@ -21,8 +20,13 @@
         </header>
 
         <section class="admin-main">
-            <h1>Dashboard</h1>
-            <p class="admin-subtitle">Signed in as <strong data-admin-email></strong></p>
+            <div class="admin-titlebar">
+                <div>
+                    <p class="admin-kicker">Control Center</p>
+                    <h1>Dashboard</h1>
+                </div>
+                <p class="admin-subtitle">Signed in as <strong data-admin-email></strong></p>
+            </div>
 
             <div class="admin-grid">
                 <div class="admin-card">
@@ -52,7 +56,10 @@
                         </svg>
                     </button>
                     <h2>Recent Orders</h2>
-                    <span data-orders-status>Loading orders...</span>
+                    <div class="admin-panel-tools">
+                        <span data-orders-status>Loading orders...</span>
+                        <button class="admin-refresh-button" type="button" data-orders-refresh>Refresh</button>
+                    </div>
                 </div>
                 <div class="admin-orders" id="recentOrdersList" data-orders-list>
                     <p class="admin-empty">Loading orders...</p>
@@ -74,12 +81,15 @@
                         </label>
 
                         <label>
-                            Image Path
+                            Product Images
                             <div class="admin-image-picker">
-                                <input name="image" type="text" placeholder="Click to choose image" data-image-path required>
+                                <input name="image" type="hidden" data-image-path required>
+                                <input type="text" placeholder="Click to choose up to 3 images" data-image-summary readonly>
                                 <button type="button" data-image-pick>Browse</button>
                             </div>
-                            <input name="imageFile" class="admin-file-input" type="file" accept="image/*" data-image-file>
+                            <span class="admin-image-count" data-image-count>No images selected</span>
+                            <input name="imageFile" class="admin-file-input" type="file" accept="image/*" data-image-file multiple>
+                            <div class="admin-image-preview" data-image-preview></div>
                         </label>
 
                         <label>
@@ -140,8 +150,15 @@
         <strong data-admin-toast-title>Product updated</strong>
         <span data-admin-toast-message></span>
     </div>
-    <script src="admin.js?v=mobile-orders-toggle"></script>
-    <script src="admin-image-compress.js?v=vercel-upload-limit"></script>
+    <div class="admin-order-modal" data-order-modal hidden>
+        <div class="admin-order-modal-backdrop" data-order-modal-close></div>
+        <section class="admin-order-sheet" role="dialog" aria-modal="true" aria-labelledby="orderModalTitle">
+            <button class="admin-order-modal-close" type="button" data-order-modal-close aria-label="Close order details">&times;</button>
+            <div data-order-modal-content></div>
+        </section>
+    </div>
+    <script src="admin.js?v=three-image-admin-picker"></script>
+    <script src="admin-image-compress.js?v=three-image-admin-picker"></script>
     <script src="session.js?v=admin-nav-submit-loader"></script>
 </body>
 </html>

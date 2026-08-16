@@ -9,6 +9,8 @@ const PRODUCT_RETRY_DELAY_MS = 1400;
 const PRODUCT_RETRY_MAX_DELAY_MS = 4200;
 let availableProducts = [];
 let activeProduct = null;
+let activeProductImages = [];
+let activeProductImageIndex = 0;
 let toastTimer;
 
 const placementLabels = {
@@ -38,7 +40,7 @@ const formatNaira = (price) => {
 const renderProductCard = (product, showCart) => `
     <div class="product-card" data-product-id="${escapeHtml(product._id)}" tabindex="0" role="button" aria-label="View ${escapeHtml(product.name)} details">
         <div class="product-image">
-            <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}">
+            <img src="${escapeHtml(getProductImages(product)[0] || product.image)}" alt="${escapeHtml(product.name)}">
         </div>
         <h3 class="product-name">${escapeHtml(product.name)}</h3>
         <p class="product-price">${formatNaira(product.price)}</p>
@@ -48,7 +50,7 @@ const renderProductCard = (product, showCart) => `
 
 const renderLookbookItem = (product, index) => `
     <div class="lookbook-item ${index === 0 || index === 5 ? "large" : ""}" data-product-id="${escapeHtml(product._id)}" tabindex="0" role="button" aria-label="View ${escapeHtml(product.name)} details">
-        <img src="${escapeHtml(product.image)}" alt="${escapeHtml(product.name)}">
+        <img src="${escapeHtml(getProductImages(product)[0] || product.image)}" alt="${escapeHtml(product.name)}">
         <div class="lookbook-overlay">
             ${index === 0 || index === 5 ? `<h2>${escapeHtml(product.category || "AMA Collection")}</h2><p>${formatNaira(product.price)}</p>` : `<h3>${escapeHtml(product.name)}</h3>`}
             <button type="button" class="${index === 0 || index === 5 ? "lookbook-btn" : "lookbook-link"}">VIEW DETAILS</button>
@@ -59,10 +61,10 @@ const renderLookbookItem = (product, index) => `
 const renderCollectionCard = (product) => `
     <div class="collection-card">
         <div class="collection-image">
-            <img src="${product.image}" alt="${product.category}">
+            <img src="${escapeHtml(getProductImages(product)[0] || product.image)}" alt="${escapeHtml(product.category)}">
         </div>
-        <h3>${product.category}</h3>
-        <p>${product.name} - ${formatNaira(product.price)}</p>
+        <h3>${escapeHtml(product.category)}</h3>
+        <p>${escapeHtml(product.name)} - ${formatNaira(product.price)}</p>
         <a href="shop.html">Explore</a>
     </div>
 `;
@@ -81,6 +83,16 @@ const clearProductTargets = () => {
     });
 };
 
+const getProductImages = (product) => {
+    const images = Array.isArray(product.images) ? product.images : [];
+
+    return [product.image, ...images]
+        .map((image) => String(image || "").trim())
+        .filter(Boolean)
+        .filter((image, index, list) => list.indexOf(image) === index)
+        .slice(0, 3);
+};
+
 const renderProductModal = () => {
     if (document.querySelector("[data-product-modal]")) return;
 
@@ -91,6 +103,9 @@ const renderProductModal = () => {
                 <button class="product-modal-close" type="button" data-modal-close aria-label="Close product details">&times;</button>
                 <div class="product-modal-image">
                     <img data-modal-image alt="">
+                    <button class="product-modal-arrow prev" type="button" data-modal-image-prev aria-label="Previous product image" hidden>&lsaquo;</button>
+                    <button class="product-modal-arrow next" type="button" data-modal-image-next aria-label="Next product image" hidden>&rsaquo;</button>
+                    <span class="product-modal-image-count" data-modal-image-count hidden></span>
                 </div>
                 <div class="product-modal-content">
                     <p class="product-modal-kicker" data-modal-category></p>
@@ -145,16 +160,31 @@ const setText = (selector, value) => {
     if (element) element.textContent = value;
 };
 
+const setModalImage = (index) => {
+    const modal = document.querySelector("[data-product-modal]");
+    if (!modal || !activeProductImages.length) return;
+
+    activeProductImageIndex = (index + activeProductImages.length) % activeProductImages.length;
+    const image = modal.querySelector("[data-modal-image]");
+    if (image) {
+        image.src = activeProductImages[activeProductImageIndex];
+        image.alt = activeProduct?.name || "Product image";
+    }
+
+    const hasMultipleImages = activeProductImages.length > 1;
+    modal.querySelectorAll("[data-modal-image-prev], [data-modal-image-next], [data-modal-image-count]").forEach((element) => {
+        element.hidden = !hasMultipleImages;
+    });
+    setText("[data-modal-image-count]", `${activeProductImageIndex + 1} / ${activeProductImages.length}`);
+};
+
 const openProductModal = (product) => {
     const modal = document.querySelector("[data-product-modal]");
     if (!modal) return;
 
     activeProduct = product;
-    const image = modal.querySelector("[data-modal-image]");
-    if (image) {
-        image.src = product.image;
-        image.alt = product.name;
-    }
+    activeProductImages = getProductImages(product);
+    setModalImage(0);
 
     const stock = Number(product.stock || 0);
     setText("[data-modal-category]", product.category || "AMA Collection");
@@ -178,6 +208,8 @@ const closeProductModal = () => {
     modal.hidden = true;
     document.body.classList.remove("modal-open");
     activeProduct = null;
+    activeProductImages = [];
+    activeProductImageIndex = 0;
 };
 
 const showToast = (product) => {
@@ -209,7 +241,7 @@ const addToCart = (product) => {
             _id: product._id,
             name: product.name,
             price: product.price,
-            image: product.image,
+            image: getProductImages(product)[0] || product.image,
             category: product.category,
             quantity: 1
         });
@@ -400,6 +432,16 @@ document.addEventListener("click", (event) => {
         return;
     }
 
+    if (event.target.closest("[data-modal-image-prev]")) {
+        setModalImage(activeProductImageIndex - 1);
+        return;
+    }
+
+    if (event.target.closest("[data-modal-image-next]")) {
+        setModalImage(activeProductImageIndex + 1);
+        return;
+    }
+
     const card = event.target.closest("[data-product-id]");
     if (!card) return;
 
@@ -417,6 +459,16 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
         closeProductModal();
+        return;
+    }
+
+    if (activeProduct && activeProductImages.length > 1 && event.key === "ArrowLeft") {
+        setModalImage(activeProductImageIndex - 1);
+        return;
+    }
+
+    if (activeProduct && activeProductImages.length > 1 && event.key === "ArrowRight") {
+        setModalImage(activeProductImageIndex + 1);
         return;
     }
 

@@ -10,6 +10,7 @@ const usersFile = path.join(dataDir, "users.json");
 const defaultProducts = seedProducts.map((product, index) => ({
     _id: `local-ama-${index + 1}`,
     ...product,
+    images: Array.isArray(product.images) ? product.images.slice(0, 3) : [product.image].filter(Boolean),
     createdAt: new Date().toISOString()
 }));
 
@@ -51,11 +52,13 @@ const getProduct = (id) => readProducts().find((product) => product._id === id);
 
 const createProduct = (product) => {
     const products = readProducts();
+    const images = Array.isArray(product.images) ? product.images.slice(0, 3) : [product.image].filter(Boolean);
     const nextProduct = {
         _id: crypto.randomUUID(),
         name: product.name,
         price: Number(product.price || 0),
-        image: product.image,
+        image: product.image || images[0],
+        images,
         category: product.category || "Collection",
         placement: product.placement || "both",
         stock: Number(product.stock || 0),

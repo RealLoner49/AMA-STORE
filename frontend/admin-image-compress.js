@@ -67,24 +67,28 @@
     };
 
     imageFileInput.addEventListener("change", async (event) => {
-        const file = imageFileInput.files?.[0];
-        if (!file) return;
+        const files = [...(imageFileInput.files || [])].slice(0, 3);
+        if (!files.length) return;
 
         event.stopImmediatePropagation();
 
-        if (!file.type.startsWith("image/")) {
+        if (files.some((file) => !file.type.startsWith("image/"))) {
             setMessage("Please choose an image file.", "error");
             return;
         }
 
-        setMessage("Optimizing image for upload...");
+        setMessage(files.length === 1 ? "Optimizing image for upload..." : `Optimizing ${files.length} images for upload...`);
 
         try {
-            const dataUrl = await compressImage(file);
-            imagePathInput.value = dataUrl;
-            setMessage(`Selected ${file.name}. Image is ready to upload.`, "success");
+            const images = await Promise.all(files.map(compressImage));
+            imagePathInput.value = images[0] || "";
+            imagePathInput.dataset.images = JSON.stringify(images);
+            window.setAmaProductImages?.(images);
+            setMessage(`${images.length} image${images.length === 1 ? "" : "s"} ready to upload.`, "success");
         } catch (error) {
             imagePathInput.value = "";
+            imagePathInput.dataset.images = "";
+            window.setAmaProductImages?.([]);
             setMessage(error.message, "error");
         }
     }, true);

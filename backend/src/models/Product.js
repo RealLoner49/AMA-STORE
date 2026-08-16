@@ -17,6 +17,17 @@ const productSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        images: {
+            type: [{
+                type: String,
+                trim: true
+            }],
+            default: [],
+            validate: {
+                validator: (images) => images.length <= 3,
+                message: "Add no more than 3 product images."
+            }
+        },
         category: {
             type: String,
             default: "Gym Essentials",
