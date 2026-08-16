@@ -19,27 +19,28 @@ const installAmaLoader = () => {
             place-items: center;
             overflow: hidden;
             background:
-                linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(239, 239, 239, 0.92)),
-                repeating-linear-gradient(90deg, rgba(17, 17, 17, 0.06) 0 1px, transparent 1px 18px);
-            backdrop-filter: blur(14px);
+                linear-gradient(135deg, rgba(250, 250, 250, 0.96), rgba(232, 232, 232, 0.94)),
+                repeating-linear-gradient(90deg, rgba(17, 17, 17, 0.035) 0 1px, transparent 1px 24px),
+                repeating-linear-gradient(0deg, rgba(17, 17, 17, 0.025) 0 1px, transparent 1px 24px);
+            backdrop-filter: blur(18px);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.18s ease;
+            transition: opacity 0.22s ease;
         }
 
         .ama-loader::before,
         .ama-loader::after {
             content: "";
             position: absolute;
-            inset: auto -10% 18%;
+            inset: auto 9% 18%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(17, 17, 17, 0.24), transparent);
-            animation: amaLoaderSweep 1.8s ease-in-out infinite;
+            background: linear-gradient(90deg, transparent, rgba(17, 17, 17, 0.22), transparent);
+            animation: amaLoaderSweep 2.4s ease-in-out infinite;
         }
 
         .ama-loader::after {
-            inset: 18% -10% auto;
-            animation-delay: -0.9s;
+            inset: 18% 9% auto;
+            animation-delay: -1.2s;
         }
 
         .ama-loader.is-visible {
@@ -48,65 +49,73 @@ const installAmaLoader = () => {
         }
 
         .ama-loader-panel {
+            position: relative;
             display: grid;
             justify-items: center;
-            gap: 18px;
-            width: min(260px, calc(100vw - 44px));
-            padding: 30px 26px 28px;
-            border: 1px solid rgba(17, 17, 17, 0.12);
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.88);
-            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.18);
+            gap: 16px;
+            width: min(340px, calc(100vw - 44px));
+            padding: 34px 32px 30px;
+            border: 1px solid rgba(17, 17, 17, 0.1);
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.16);
+        }
+
+        .ama-loader-panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #111;
         }
 
         .ama-loader-logo {
             color: #111;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 900;
-            letter-spacing: 0.22em;
+            letter-spacing: 0.24em;
             text-transform: uppercase;
         }
 
         .ama-loader-mark {
             position: relative;
-            width: 92px;
-            height: 52px;
-            background:
-                linear-gradient(90deg, transparent 0 11px, #111 11px 15px, transparent 15px 28px, #111 28px 32px, transparent 32px 45px, #111 45px 49px, transparent 49px 62px, #111 62px 66px, transparent 66px),
-                linear-gradient(#111, #111);
-            background-size: 100% 100%, 72px 3px;
-            background-position: center, center 25px;
-            background-repeat: no-repeat;
-            animation: amaLoaderPulse 1s ease-in-out infinite;
+            width: 74px;
+            height: 74px;
+            border: 1px solid rgba(17, 17, 17, 0.12);
+            border-radius: 50%;
+            animation: amaLoaderTurn 1.4s linear infinite;
         }
 
         .ama-loader-mark::before,
         .ama-loader-mark::after {
             content: "";
             position: absolute;
-            top: 50%;
-            width: 10px;
-            height: 10px;
+            inset: 9px;
             border-radius: 50%;
-            background: #111;
-            transform: translateY(-50%);
-            animation: amaLoaderDot 1s ease-in-out infinite;
+            border: 2px solid transparent;
+            border-top-color: #111;
+            border-right-color: #111;
         }
 
         .ama-loader-mark::before {
-            left: -18px;
+            animation: amaLoaderTurn 1.1s linear infinite reverse;
         }
 
         .ama-loader-mark::after {
-            right: -18px;
-            animation-delay: -0.5s;
+            inset: 25px;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: #111;
+            border-left-color: #111;
         }
 
         .ama-loader-text {
             color: #111;
             font-size: 12px;
             font-weight: 900;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             line-height: 1.35;
             text-align: center;
             text-transform: uppercase;
@@ -115,10 +124,10 @@ const installAmaLoader = () => {
         .ama-loader-bar {
             position: relative;
             width: 100%;
-            height: 3px;
+            height: 2px;
             overflow: hidden;
             border-radius: 999px;
-            background: #ededed;
+            background: #e7e7e7;
         }
 
         .ama-loader-bar::after {
@@ -128,26 +137,16 @@ const installAmaLoader = () => {
             width: 44%;
             border-radius: inherit;
             background: #111;
-            animation: amaLoaderBar 1s ease-in-out infinite;
+            animation: amaLoaderBar 1.18s ease-in-out infinite;
         }
 
-        @keyframes amaLoaderSpin {
+        @keyframes amaLoaderTurn {
             to { transform: rotate(360deg); }
         }
 
-        @keyframes amaLoaderPulse {
-            0%, 100% { transform: translateY(0); opacity: 0.72; }
-            50% { transform: translateY(-2px); opacity: 1; }
-        }
-
-        @keyframes amaLoaderDot {
-            0%, 100% { transform: translateY(-50%) scale(0.58); opacity: 0.35; }
-            50% { transform: translateY(-50%) scale(1); opacity: 1; }
-        }
-
         @keyframes amaLoaderSweep {
-            0%, 100% { transform: translateX(-18%); opacity: 0.25; }
-            50% { transform: translateX(18%); opacity: 0.75; }
+            0%, 100% { transform: translateX(-8%); opacity: 0.22; }
+            50% { transform: translateX(8%); opacity: 0.68; }
         }
 
         @keyframes amaLoaderBar {

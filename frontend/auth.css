@@ -965,29 +965,50 @@ body {
 
 .admin-image-thumb-actions {
     position: absolute;
-    right: 4px;
-    bottom: 4px;
-    left: 4px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
+    right: 6px;
+    bottom: 6px;
+    left: 6px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .admin-image-thumb-actions button {
     min-width: 0;
-    height: 24px;
-    border: 0;
-    background: rgba(17, 17, 17, 0.86);
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.68);
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.78);
     color: #fff;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 900;
     line-height: 1;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(8px);
+    transition: background 0.18s ease, transform 0.18s ease, opacity 0.18s ease;
+}
+
+.admin-image-thumb-actions button:hover:not(:disabled) {
+    background: #111;
+    transform: translateY(-1px);
 }
 
 .admin-image-thumb-actions button:disabled {
     cursor: not-allowed;
-    opacity: 0.38;
+    opacity: 0.32;
+}
+
+.admin-image-thumb-actions button[data-image-remove] {
+    background: rgba(155, 28, 28, 0.86);
+}
+
+.admin-image-thumb-actions button[data-image-remove]:hover {
+    background: #9b1c1c;
 }
 
 .admin-image-hint {
