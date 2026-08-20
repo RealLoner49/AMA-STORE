@@ -18,11 +18,10 @@ const installAmaLoader = () => {
             display: grid;
             place-items: center;
             overflow: hidden;
-            background: rgba(255, 255, 255, 0.72);
-            backdrop-filter: blur(8px);
+            background: #f7f2ea;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.18s ease;
+            transition: opacity 0.28s ease;
         }
 
         .ama-loader.is-visible {
@@ -34,86 +33,49 @@ const installAmaLoader = () => {
             position: relative;
             display: grid;
             justify-items: center;
-            gap: 9px;
-            width: min(150px, calc(100vw - 44px));
-            padding: 17px 16px 15px;
-            border: 1px solid rgba(17, 17, 17, 0.1);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.94);
-            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.12);
+            gap: 14px;
+            width: min(180px, calc(100vw - 48px));
+            padding: 0;
+            background: transparent;
         }
 
         .ama-loader-logo {
             color: #111;
-            font-size: 13px;
-            font-weight: 900;
-            letter-spacing: 0.22em;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(36px, 8vw, 52px);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            line-height: 1;
             text-transform: uppercase;
-        }
-
-        .ama-loader-mark {
-            position: relative;
-            width: 34px;
-            height: 34px;
-            border: 1px solid rgba(17, 17, 17, 0.12);
-            border-radius: 50%;
-            animation: amaLoaderTurn 1.4s linear infinite;
-        }
-
-        .ama-loader-mark::before,
-        .ama-loader-mark::after {
-            content: "";
-            position: absolute;
-            inset: 5px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: #111;
-            border-right-color: #111;
-        }
-
-        .ama-loader-mark::before {
-            animation: amaLoaderTurn 1.1s linear infinite reverse;
-        }
-
-        .ama-loader-mark::after {
-            inset: 13px;
-            border-top-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: #111;
-            border-left-color: #111;
         }
 
         .ama-loader-text {
             color: #111;
-            font-size: 9px;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-            line-height: 1.35;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.52em;
+            line-height: 1;
             text-align: center;
             text-transform: uppercase;
+            transform: translateX(0.26em);
         }
 
         .ama-loader-bar {
             position: relative;
-            width: 72px;
-            height: 2px;
+            width: 88px;
+            height: 1px;
             overflow: hidden;
-            border-radius: 999px;
-            background: #e7e7e7;
+            background: rgba(184, 137, 74, 0.42);
         }
 
         .ama-loader-bar::after {
             content: "";
             position: absolute;
             inset: 0 auto 0 0;
-            width: 44%;
+            width: 38%;
             border-radius: inherit;
-            background: #111;
-            animation: amaLoaderBar 1.18s ease-in-out infinite;
-        }
-
-        @keyframes amaLoaderTurn {
-            to { transform: rotate(360deg); }
+            background: #b8894a;
+            animation: amaLoaderBar 1.35s ease-in-out infinite;
         }
 
         @keyframes amaLoaderBar {
@@ -130,9 +92,8 @@ const installAmaLoader = () => {
     loader.innerHTML = `
         <div class="ama-loader-panel">
             <div class="ama-loader-logo">AMA</div>
-            <div class="ama-loader-mark" aria-hidden="true"></div>
-            <div class="ama-loader-text" data-ama-loader-text>Loading...</div>
             <div class="ama-loader-bar" aria-hidden="true"></div>
+            <div class="ama-loader-text" data-ama-loader-text>Loading</div>
         </div>
     `;
 
@@ -140,7 +101,7 @@ const installAmaLoader = () => {
     document.body.appendChild(loader);
 };
 
-const showAmaLoader = (message = "Loading...") => {
+const showAmaLoader = (message = "Loading") => {
     const loader = document.querySelector("[data-ama-loader]");
     const text = document.querySelector("[data-ama-loader-text]");
     if (!loader) return;
@@ -165,7 +126,7 @@ const hideAmaLoader = (delay = 160) => {
     }, delay);
 };
 
-const holdAmaLoader = (message = "Loading...") => {
+const holdAmaLoader = (message = "Loading") => {
     loaderHoldCount += 1;
     showAmaLoader(message);
 };
@@ -185,7 +146,7 @@ const patchFetchLoader = () => {
         const method = String(options.method || "GET").toUpperCase();
         const shouldShow = ["POST", "PUT", "PATCH", "DELETE"].includes(method);
 
-        if (shouldShow) showAmaLoader(method === "DELETE" ? "Deleting..." : "Processing...");
+        if (shouldShow) showAmaLoader(method === "DELETE" ? "Deleting" : "Processing");
 
         try {
             return await nativeFetch(...args);
@@ -204,17 +165,17 @@ const bindInteractionLoader = () => {
         const target = link.getAttribute("target");
         if (!href || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:") || target === "_blank") return;
 
-        showAmaLoader("Loading...");
+        showAmaLoader("Loading");
     });
 
     document.addEventListener("submit", (event) => {
         if (event.defaultPrevented) return;
-        showAmaLoader("Processing...");
+        showAmaLoader("Processing");
     });
 };
 
 const logout = () => {
-    showAmaLoader("Logging out...");
+    showAmaLoader("Logging out");
     localStorage.removeItem("amaToken");
     localStorage.removeItem("amaSession");
     window.location.href = "login.html";
